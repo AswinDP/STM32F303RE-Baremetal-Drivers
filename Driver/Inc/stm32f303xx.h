@@ -150,6 +150,23 @@ typedef struct{
 } I2C_Regs_t;
 
 
+//Structure for USARTx registers
+typedef struct{
+
+	__vo uint32_t CR1;
+	__vo uint32_t CR2;
+	__vo uint32_t CR3;
+	__vo uint32_t BRR;
+	__vo uint32_t GTPR;
+	__vo uint32_t RTOR;
+	__vo uint32_t RQR;
+	__vo uint32_t ISR;
+	__vo uint32_t ICR;
+	__vo uint32_t RDR;
+	__vo uint32_t TDR;
+
+} USART_Regs_t;
+
 
 //GPIO Peripheral definitions
 #define GPIOA						((GPIO_Regs_t*)GPIOA_BASEADDR)
@@ -179,6 +196,134 @@ typedef struct{
 #define I2C3						((I2C_Regs_t*)I2C3_BASEADDR)
 
 
+//USART Peripheral definitions
+#define USART1						((USART_Regs_t*)USART1_BASEADDR)
+#define USART2						((USART_Regs_t*)USART2_BASEADDR)
+#define UART3						((USART_Regs_t*)UART3_BASEADDR)
+#define UART4						((USART_Regs_t*)UART4_BASEADDR)
+#define UART5						((USART_Regs_t*)UART5_BASEADDR)
+
+/* USART_CR1 bits */
+/* USART_CR1 bits (32-bit) */
+#define USART_CR1_UE        (1U << 0)
+#define USART_CR1_UESM      (1U << 1)
+#define USART_CR1_RE        (1U << 2)
+#define USART_CR1_TE        (1U << 3)
+#define USART_CR1_IDLEIE    (1U << 4)
+#define USART_CR1_RXNEIE    (1U << 5)
+#define USART_CR1_TCIE      (1U << 6)
+#define USART_CR1_TXEIE     (1U << 7)
+#define USART_CR1_PEIE      (1U << 8)
+#define USART_CR1_PS        (1U << 9)
+#define USART_CR1_PCE       (1U << 10)
+#define USART_CR1_WAKE      (1U << 11)
+#define USART_CR1_M0        (1U << 12)
+#define USART_CR1_MME       (1U << 13)
+#define USART_CR1_CMIE      (1U << 14)
+#define USART_CR1_OVER8     (1U << 15)
+#define USART_CR1_DEDT      (1U << 16)
+#define USART_CR1_DEAT      (1U << 21)
+#define USART_CR1_RTOIE     (1U << 26)
+#define USART_CR1_EOBIE     (1U << 27)
+#define USART_CR1_M1        (1U << 28)
+/* Bits 29–31: Reserved */
+
+
+/* USART_CR2 bits */
+/* Bits 0–3: Reserved */
+#define USART_CR2_ADDM7     (1U << 4)
+#define USART_CR2_LBDL      (1U << 5)
+#define USART_CR2_LBDIE     (1U << 6)
+/* Bit 7: Reserved */
+#define USART_CR2_LBCL      (1U << 8)
+#define USART_CR2_CPHA      (1U << 9)
+#define USART_CR2_CPOL      (1U << 10)
+#define USART_CR2_CLKEN     (1U << 11)
+#define USART_CR2_STOP0     (1U << 12)
+#define USART_CR2_STOP1     (1U << 13)
+#define USART_CR2_LINEN     (1U << 14)
+#define USART_CR2_SWAP      (1U << 15)
+#define USART_CR2_RXINV     (1U << 16)
+#define USART_CR2_TXINV     (1U << 17)
+#define USART_CR2_DATAINV   (1U << 18)
+#define USART_CR2_MSBFIRST  (1U << 19)
+#define USART_CR2_ABREN     (1U << 20)
+#define USART_CR2_ABRMOD    (1U << 21)
+#define USART_CR2_RTOEN     (1U << 23)
+#define USART_CR2_ADD       (1U << 24)
+
+
+/* USART_CR3 bits (32-bit) */
+#define USART_CR3_EIE       (1U << 0)
+#define USART_CR3_IREN      (1U << 1)
+#define USART_CR3_IRLP      (1U << 2)
+#define USART_CR3_HDSEL     (1U << 3)
+#define USART_CR3_NACK      (1U << 4)
+#define USART_CR3_SCEN      (1U << 5)
+#define USART_CR3_DMAR      (1U << 6)
+#define USART_CR3_DMAT      (1U << 7)
+#define USART_CR3_RTSE      (1U << 8)
+#define USART_CR3_CTSE      (1U << 9)
+#define USART_CR3_CTSIE     (1U << 10)
+#define USART_CR3_ONEBIT    (1U << 11)
+#define USART_CR3_OVRDIS    (1U << 12)
+#define USART_CR3_DDRE      (1U << 13)
+#define USART_CR3_DEM       (1U << 14)
+#define USART_CR3_DEP       (1U << 15)
+/* Bit 16: Reserved */
+#define USART_CR3_SCARCNT  (1U << 17)
+#define USART_CR3_WUS      (1U << 20)
+#define USART_CR3_WUFIE     (1U << 22)
+/* Bits 23–31: Reserved */
+
+
+/* USART_RQR bits */
+#define USART_RQR_ABRRQ     (1U << 0)
+#define USART_RQR_SBKRQ     (1U << 1)
+#define USART_RQR_MMRQ      (1U << 2)
+#define USART_RQR_RXFRQ     (1U << 3)
+#define USART_RQR_TXFRQ     (1U << 4)
+
+
+/* USART_ISR bits */
+#define USART_ISR_PE        (1U << 0)   /* Parity error */
+#define USART_ISR_FE        (1U << 1)   /* Framing error */
+#define USART_ISR_NF        (1U << 2)   /* Noise detected flag */
+#define USART_ISR_ORE       (1U << 3)   /* Overrun error */
+#define USART_ISR_IDLE      (1U << 4)   /* Idle line detected */
+#define USART_ISR_RXNE      (1U << 5)   /* Read data register not empty */
+#define USART_ISR_TC        (1U << 6)   /* Transmission complete */
+#define USART_ISR_TXE       (1U << 7)   /* Transmit data register empty */
+#define USART_ISR_LBDF      (1U << 8)   /* LIN break detection flag */
+#define USART_ISR_CTSIF     (1U << 9)   /* CTS interrupt flag */
+#define USART_ISR_CTS       (1U << 10)  /* CTS flag */
+#define USART_ISR_RTOF      (1U << 11)  /* Receiver timeout */
+#define USART_ISR_EOBF      (1U << 12)  /* End of block flag */
+#define USART_ISR_ABRE      (1U << 14)  /* Auto baud rate error */
+#define USART_ISR_ABRF      (1U << 15)  /* Auto baud rate flag */
+#define USART_ISR_BUSY      (1U << 16)  /* Busy flag */
+#define USART_ISR_CMF       (1U << 17)  /* Character match flag */
+#define USART_ISR_SBKF      (1U << 18)  /* Send break flag */
+#define USART_ISR_RWU       (1U << 19)  /* Receiver wakeup */
+#define USART_ISR_WUF       (1U << 20)  /* Wakeup from Stop mode */
+#define USART_ISR_TEACK     (1U << 21)  /* Transmit enable acknowledge */
+#define USART_ISR_REACK     (1U << 22)  /* Receive enable acknowledge */
+
+/* USART_ICR bits */
+#define USART_ICR_PECF      (1U << 0)   /* Parity error clear */
+#define USART_ICR_FECF      (1U << 1)   /* Framing error clear */
+#define USART_ICR_NCF       (1U << 2)   /* Noise detected clear */
+#define USART_ICR_ORECF     (1U << 3)   /* Overrun error clear */
+#define USART_ICR_IDLECF    (1U << 4)   /* Idle line clear */
+#define USART_ICR_TCCF      (1U << 6)   /* Transmission complete clear */
+#define USART_ICR_LBDCF     (1U << 8)   /* LIN break detection clear */
+#define USART_ICR_CTSCF     (1U << 9)   /* CTS clear */
+#define USART_ICR_RTOCF     (1U << 11)  /* Receiver timeout clear */
+#define USART_ICR_EOBCF     (1U << 12)  /* End of block clear */
+#define USART_ICR_CMCF      (1U << 17)  /* Character match clear */
+#define USART_ICR_WUCF      (1U << 20)  /* Wakeup from Stop mode clear */
+
+
 //Clock Enable Macros for GPIOx
 #define GPIOA_CLK_EN()				( RCC -> AHBENR |= (1 << 17))
 #define GPIOB_CLK_EN()				( RCC -> AHBENR |= (1 << 18))
@@ -206,7 +351,7 @@ typedef struct{
 //Clock Enable Macros for USART UART
 #define USART1_CLK_EN()				(RCC -> APB2ENR |= (1 << 14))
 #define USART2_CLK_EN()				(RCC -> APB1ENR |= (1 << 17))
-#define USART3_CLK_EN()				(RCC -> APB1ENR |= (1 << 18))
+#define UART3_CLK_EN()				(RCC -> APB1ENR |= (1 << 18))
 #define UART4_CLK_EN()				(RCC -> APB1ENR |= (1 << 19))
 #define UART5_CLK_EN()				(RCC -> APB1ENR |= (1 << 20))
 
@@ -241,7 +386,7 @@ typedef struct{
 //Clock Disable Macros for USART UART
 #define USART1_CLK_DI()				(RCC -> APB2ENR &= ~(1 << 14))
 #define USART2_CLK_DI()				(RCC -> APB1ENR &= ~(1 << 17))
-#define USART3_CLK_DI()				(RCC -> APB1ENR &= ~(1 << 18))
+#define UART3_CLK_DI()				(RCC -> APB1ENR &= ~(1 << 18))
 #define UART4_CLK_DI()				(RCC -> APB1ENR &= ~(1 << 19))
 #define UART5_CLK_DI()				(RCC -> APB1ENR &= ~(1 << 20))
 
@@ -267,8 +412,17 @@ typedef struct{
 #define I2C3_REG_RST()				do {( RCC -> APB1RSTR |= (1 << 30));  ( RCC -> APB1RSTR &= ~(1 << 30));} while(0)
 
 
+//USART Reset Macro
+#define USART1_REG_RST()			do {( RCC -> APB2RSTR |= (1 << 14));  ( RCC -> APB2RSTR &= ~(1 << 14));} while(0)
+#define USART2_REG_RST()			do {( RCC -> APB1RSTR |= (1 << 17));  ( RCC -> APB1RSTR &= ~(1 << 17));} while(0)
+#define UART3_REG_RST()				do {( RCC -> APB1RSTR |= (1 << 18));  ( RCC -> APB1RSTR &= ~(1 << 18));} while(0)
+#define UART4_REG_RST()				do {( RCC -> APB1RSTR |= (1 << 19));  ( RCC -> APB1RSTR &= ~(1 << 19));} while(0)
+#define UART5_REG_RST()				do {( RCC -> APB1RSTR |= (1 << 20));  ( RCC -> APB1RSTR &= ~(1 << 20));} while(0)
+
+
 #include "stm32f303xx_gpio_driver.h"
 #include "stm32f303xx_spi_driver.h"
 #include "stm32f303xx_i2c_driver.h"
+#include "stm32f303xx_usart_driver.h"
 
 #endif /* INC_STM32F303XX_H_ */
