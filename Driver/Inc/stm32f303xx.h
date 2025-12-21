@@ -183,6 +183,7 @@ typedef struct{
 #define RCC							((RCC_Regs_t*)RCC_BASEADDR)
 
 
+
 //SPI Peripheral definitions
 #define SPI1						((SPI_Regs_t*)SPI1_BASEADDR)
 #define SPI2						((SPI_Regs_t*)SPI2_BASEADDR)

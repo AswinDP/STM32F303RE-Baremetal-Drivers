@@ -188,6 +188,7 @@ void USART_Init(USART_Handle_t *pUSARTHandle)
 
 	// USART BRR values calculated for 8 MHz peripheral clock
 	// Oversampling = 16
+
 	pUSARTHandle->pUSARTx->BRR = pUSARTHandle->USART_Config.USART_Baud;
 
 
