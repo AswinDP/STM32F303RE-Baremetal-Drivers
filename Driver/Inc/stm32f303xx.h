@@ -199,7 +199,7 @@ typedef struct{
 //USART Peripheral definitions
 #define USART1						((USART_Regs_t*)USART1_BASEADDR)
 #define USART2						((USART_Regs_t*)USART2_BASEADDR)
-#define UART3						((USART_Regs_t*)UART3_BASEADDR)
+#define USART3						((USART_Regs_t*)USART3_BASEADDR)
 #define UART4						((USART_Regs_t*)UART4_BASEADDR)
 #define UART5						((USART_Regs_t*)UART5_BASEADDR)
 
@@ -351,7 +351,7 @@ typedef struct{
 //Clock Enable Macros for USART UART
 #define USART1_CLK_EN()				(RCC -> APB2ENR |= (1 << 14))
 #define USART2_CLK_EN()				(RCC -> APB1ENR |= (1 << 17))
-#define UART3_CLK_EN()				(RCC -> APB1ENR |= (1 << 18))
+#define USART3_CLK_EN()				(RCC -> APB1ENR |= (1 << 18))
 #define UART4_CLK_EN()				(RCC -> APB1ENR |= (1 << 19))
 #define UART5_CLK_EN()				(RCC -> APB1ENR |= (1 << 20))
 
@@ -386,7 +386,7 @@ typedef struct{
 //Clock Disable Macros for USART UART
 #define USART1_CLK_DI()				(RCC -> APB2ENR &= ~(1 << 14))
 #define USART2_CLK_DI()				(RCC -> APB1ENR &= ~(1 << 17))
-#define UART3_CLK_DI()				(RCC -> APB1ENR &= ~(1 << 18))
+#define USART3_CLK_DI()				(RCC -> APB1ENR &= ~(1 << 18))
 #define UART4_CLK_DI()				(RCC -> APB1ENR &= ~(1 << 19))
 #define UART5_CLK_DI()				(RCC -> APB1ENR &= ~(1 << 20))
 
@@ -415,7 +415,7 @@ typedef struct{
 //USART Reset Macro
 #define USART1_REG_RST()			do {( RCC -> APB2RSTR |= (1 << 14));  ( RCC -> APB2RSTR &= ~(1 << 14));} while(0)
 #define USART2_REG_RST()			do {( RCC -> APB1RSTR |= (1 << 17));  ( RCC -> APB1RSTR &= ~(1 << 17));} while(0)
-#define UART3_REG_RST()				do {( RCC -> APB1RSTR |= (1 << 18));  ( RCC -> APB1RSTR &= ~(1 << 18));} while(0)
+#define USART3_REG_RST()			do {( RCC -> APB1RSTR |= (1 << 18));  ( RCC -> APB1RSTR &= ~(1 << 18));} while(0)
 #define UART4_REG_RST()				do {( RCC -> APB1RSTR |= (1 << 19));  ( RCC -> APB1RSTR &= ~(1 << 19));} while(0)
 #define UART5_REG_RST()				do {( RCC -> APB1RSTR |= (1 << 20));  ( RCC -> APB1RSTR &= ~(1 << 20));} while(0)
 

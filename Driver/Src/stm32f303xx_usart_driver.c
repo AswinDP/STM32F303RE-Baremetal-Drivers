@@ -20,9 +20,9 @@ void USART_ClkControl(USART_Regs_t *pUSARTx, uint8_t EnorDi)
 		{
 			USART2_CLK_EN();
 		}
-		else if(pUSARTx == UART3)
+		else if(pUSARTx == USART3)
 		{
-			UART3_CLK_EN();
+			USART3_CLK_EN();
 		}
 		else if(pUSARTx == UART4)
 		{
@@ -44,9 +44,9 @@ void USART_ClkControl(USART_Regs_t *pUSARTx, uint8_t EnorDi)
 		{
 			USART2_CLK_DI();
 		}
-		else if(pUSARTx == UART3)
+		else if(pUSARTx == USART3)
 		{
-			UART3_CLK_DI();
+			USART3_CLK_DI();
 		}
 		else if(pUSARTx == UART4)
 		{
@@ -200,23 +200,23 @@ void USART_Init(USART_Handle_t *pUSARTHandle)
 
 void USART_DeInit(USART_Regs_t *pUSARTx)
 {
-    if (pI2Cx == USART1)
+    if (pUSARTx == USART1)
     {
         USART1_REG_RST();
     }
-    else if (pI2Cx == USART2)
+    else if (pUSARTx == USART2)
     {
        USART2_REG_RST();
     }
-    else if (pI2Cx == UART3)
+    else if (pUSARTx == USART3)
     {
-       UART3_REG_RST();
+       USART3_REG_RST();
     }
-    else if (pI2Cx == UART4)
+    else if (pUSARTx == UART4)
     {
        UART4_REG_RST();
     }
-    else if (pI2Cx == UART5)
+    else if (pUSARTx == UART5)
     {
        UART5_REG_RST();
     }
@@ -275,7 +275,7 @@ void USART_SendData(USART_Handle_t *pUSARTHandle, uint8_t *pTxBuffer, uint32_t L
 		else
 		{
 
-			//This is 7bit data transfer
+			//This is 7bit data transfer if parity enabled, MSB changed and 6 bit will be data
 			pUSARTHandle->pUSARTx->TDR = (*pTxBuffer  & (uint8_t)0x7F);
 
 			pTxBuffer++;
@@ -289,17 +289,97 @@ void USART_SendData(USART_Handle_t *pUSARTHandle, uint8_t *pTxBuffer, uint32_t L
 }
 
 
+void USART_ReceiveData(USART_Handle_t *pUSARTHandle, uint8_t *pRxBuffer, uint32_t Len)
+{
+	/*
+	 * Len = number of UART frames to receive
+	 *
+	 * Buffer layout requirements:
+	 * - 7-bit / 8-bit OR parity-enabled 9-bit: pRxBuffer points to uint8_t[]
+	 * - 9-bit without parity: pRxBuffer must point to uint16_t[] (cast to uint8_t*)
+	 *
+	 * Caller must ensure correct USART configuration and buffer alignment.
+	 */
+	for(uint32_t i = 0 ; i < Len; i++)
+	{
+		//Implement the code to wait until RXNE flag is set in the SR
+		while(!(pUSARTHandle->pUSARTx->ISR & USART_ISR_RXNE));
 
+		//Check the USART_WordLength to decide whether we are going to receive 9bit of data in a frame or 8 bit
+		if(pUSARTHandle->USART_Config.USART_WordLength == USART_WORDLEN_9BITS)
+		{
+			//We are going to receive 9bit data in a frame
 
+			//Now, check are we using USART_ParityControl control or not
+			if(pUSARTHandle->USART_Config.USART_ParityControl == USART_PARITYCTRL_DIS)
+			{
+				//No parity is used , so all 9bits will be of user data
 
+				//read only first 9 bits so mask the DR with 0x01FF
+				*((uint16_t*) pRxBuffer) = (pUSARTHandle->pUSARTx->RDR  & (uint16_t)0x01FF);
 
+				//Now increment the pRxBuffer two times
+				pRxBuffer++;
+				pRxBuffer++;
+			}
+			else
+			{
+				//Parity is used, so 8bits will be of user data and 1 bit is parity
+				 *pRxBuffer = (pUSARTHandle->pUSARTx->RDR  & (uint8_t)0xFF);
+				 pRxBuffer++;
+			}
+		}
+		else if(pUSARTHandle->USART_Config.USART_WordLength == USART_WORDLEN_8BITS)
+		{
+			//We are going to receive 8bit data in a frame
 
+			//Now, check are we using USART_ParityControl control or not
+			if(pUSARTHandle->USART_Config.USART_ParityControl == USART_PARITYCTRL_DIS)
+			{
+				//No parity is used , so all 8bits will be of user data
 
+				//read 8 bits from DR
+				 *pRxBuffer = (uint8_t) (pUSARTHandle->pUSARTx->RDR  & (uint8_t)0xFF);
+			}
 
+			else
+			{
+				//Parity is used, so , 7 bits will be of user data and 1 bit is parity
 
+				//read only 7 bits , hence mask the DR with 0X7F
+				 *pRxBuffer = (uint8_t) (pUSARTHandle->pUSARTx->RDR  & (uint8_t)0x7F);
 
+			}
 
+			//Now , increment the pRxBuffer
+			pRxBuffer++;
+		}
+		else
+		{
+			//We are going to receive 7bit data in a frame
 
+			//Now, check are we using USART_ParityControl control or not
+			if(pUSARTHandle->USART_Config.USART_ParityControl == USART_PARITYCTRL_DIS)
+			{
+				//No parity is used , so all 7bits will be of user data
 
-uint8_t USART_ReceiveData(USART_Handle_t *pUSARTHandle, uint8_t *pRxBuffer, uint32_t Len);
+				//read 7 bits from DR
+				 *pRxBuffer = (uint8_t) (pUSARTHandle->pUSARTx->RDR  & (uint8_t)0x7F);
+			}
+
+			else
+			{
+				//Parity is used, so , 6 bits will be of user data and 1 bit is parity
+
+				//read only 6 bits , hence mask the DR with 0X3F
+				 *pRxBuffer = (uint8_t) (pUSARTHandle->pUSARTx->RDR  & (uint8_t)0x3F);
+
+			}
+
+			//Now , increment the pRxBuffer
+			pRxBuffer++;
+		}
+	}
+
+}
 
