@@ -373,9 +373,101 @@ typedef struct
 #define USART_ICR_WUCF      (1U << 20)  /* Wakeup from Stop mode clear */
 
 
+//TIM Peripheral definitions
 #define TIM2   				((GP1_TIM_Regs_t*)TIM2_BASEADDR)
 #define TIM3   				((GP1_TIM_Regs_t*)TIM3_BASEADDR)
 #define TIM4   				((GP1_TIM_Regs_t*)TIM4_BASEADDR)
+
+/* TIMx_CR1 register bit positions */
+#define GP1_TIM_CR1_CEN        0   /* Counter enable */
+#define GP1_TIM_CR1_UDIS       1   /* Update disable */
+#define GP1_TIM_CR1_URS        2   /* Update request source */
+#define GP1_TIM_CR1_OPM        3   /* One-pulse mode */
+#define GP1_TIM_CR1_DIR        4   /* Direction */
+#define GP1_TIM_CR1_CMS        5   /* Center-aligned mode (bits 6:5) */
+#define GP1_TIM_CR1_ARPE       7   /* Auto-reload preload enable */
+#define GP1_TIM_CR1_CKD        8   /* Clock division (bits 9:8) */
+#define GP1_TIM_CR1_UIFREMAP  10   /* UIF status bit remap */
+/* TIMx_DIER register bit positions */
+#define GP1_TIM_DIER_UIE      0   /* Update interrupt enable */
+#define GP1_TIM_DIER_CC1IE    1   /* Capture/Compare 1 interrupt enable */
+#define GP1_TIM_DIER_CC2IE    2
+#define GP1_TIM_DIER_CC3IE    3
+#define GP1_TIM_DIER_CC4IE    4
+#define GP1_TIM_DIER_TIE      6   /* Trigger interrupt enable */
+#define GP1_TIM_DIER_UDE      8   /* Update DMA request enable */
+#define GP1_TIM_DIER_CC1DE    9
+#define GP1_TIM_DIER_CC2DE   10
+#define GP1_TIM_DIER_CC3DE   11
+#define GP1_TIM_DIER_CC4DE   12
+#define GP1_TIM_DIER_TDE     14   /* Trigger DMA request enable */
+/* TIMx_SR register bit positions */
+#define GP1_TIM_SR_UIF        0   /* Update interrupt flag */
+#define GP1_TIM_SR_CC1IF     1   /* Capture/Compare 1 flag */
+#define GP1_TIM_SR_CC2IF     2
+#define GP1_TIM_SR_CC3IF     3
+#define GP1_TIM_SR_CC4IF     4
+#define GP1_TIM_SR_TIF       6   /* Trigger interrupt flag */
+#define GP1_TIM_SR_CC1OF     9   /* Capture/Compare 1 overcapture */
+#define GP1_TIM_SR_CC2OF    10
+#define GP1_TIM_SR_CC3OF    11
+#define GP1_TIM_SR_CC4OF    12
+/* TIMx_EGR register bit positions */
+#define GP1_TIM_EGR_UG        0   /* Update generation */
+#define GP1_TIM_EGR_CC1G     1   /* Capture/Compare 1 generation */
+#define GP1_TIM_EGR_CC2G     2
+#define GP1_TIM_EGR_CC3G     3
+#define GP1_TIM_EGR_CC4G     4
+#define GP1_TIM_EGR_TG       6   /* Trigger generation */
+/* TIMx_CCMR1 output compare bit positions */
+#define GP1_TIM_CCMR1_CC1S    0   /* Capture/Compare 1 selection (bits 1:0) */
+#define GP1_TIM_CCMR1_OC1FE   2
+#define GP1_TIM_CCMR1_OC1PE   3
+#define GP1_TIM_CCMR1_OC1M    4   /* OC1 mode (bits 6:4) */
+#define GP1_TIM_CCMR1_OC1CE   7
+#define GP1_TIM_CCMR1_CC2S    8   /* Capture/Compare 2 selection (bits 9:8) */
+#define GP1_TIM_CCMR1_OC2FE  10
+#define GP1_TIM_CCMR1_OC2PE  11
+#define GP1_TIM_CCMR1_OC2M   12   /* OC2 mode (bits 14:12) */
+#define GP1_TIM_CCMR1_OC2CE  15
+/* TIMx_CCMR1 input capture bit positions */
+#define GP1_TIM_CCMR1_IC1PSC  2   /* Input capture 1 prescaler (bits 3:2) */
+#define GP1_TIM_CCMR1_IC1F    4   /* Input capture 1 filter (bits 7:4) */
+#define GP1_TIM_CCMR1_IC2PSC 10   /* Input capture 2 prescaler (bits 11:10) */
+#define GP1_TIM_CCMR1_IC2F   12   /* Input capture 2 filter (bits 15:12) */
+/* TIMx_CCMR2 output compare bit positions */
+#define GP1_TIM_CCMR2_CC3S    0
+#define GP1_TIM_CCMR2_OC3FE   2
+#define GP1_TIM_CCMR2_OC3PE   3
+#define GP1_TIM_CCMR2_OC3M    4
+#define GP1_TIM_CCMR2_OC3CE   7
+#define GP1_TIM_CCMR2_CC4S    8
+#define GP1_TIM_CCMR2_OC4FE  10
+#define GP1_TIM_CCMR2_OC4PE  11
+#define GP1_TIM_CCMR2_OC4M   12
+#define GP1_TIM_CCMR2_OC4CE  15
+/* TIMx_CCMR2 input capture bit positions */
+#define GP1_TIM_CCMR2_IC3PSC  2
+#define GP1_TIM_CCMR2_IC3F    4
+#define GP1_TIM_CCMR2_IC4PSC 10
+#define GP1_TIM_CCMR2_IC4F   12
+/* TIMx_CCER register bit positions */
+/* Channel 1 */
+#define GP1_TIM_CCER_CC1E     0   /* Capture/Compare 1 output enable */
+#define GP1_TIM_CCER_CC1P     1   /* Capture/Compare 1 polarity */
+#define GP1_TIM_CCER_CC1NP    3   /* Capture/Compare 1 complementary polarity */
+/* Channel 2 */
+#define GP1_TIM_CCER_CC2E     4
+#define GP1_TIM_CCER_CC2P     5
+#define GP1_TIM_CCER_CC2NP    7
+/* Channel 3 */
+#define GP1_TIM_CCER_CC3E     8
+#define GP1_TIM_CCER_CC3P     9
+#define GP1_TIM_CCER_CC3NP   11
+/* Channel 4 */
+#define GP1_TIM_CCER_CC4E    12
+#define GP1_TIM_CCER_CC4P    13
+#define GP1_TIM_CCER_CC4NP   15
 
 
 
@@ -510,18 +602,18 @@ typedef struct
 
 
 //Clock Reset Macros for TIMx
-#define TIM1_CLK_RESET()    do { (RCC->APB2RSTR |=  (1 << 11)); (RCC->APB2RSTR &= ~(1 << 11)); } while(0)
-#define TIM15_CLK_RESET()   do { (RCC->APB2RSTR |=  (1 << 16)); (RCC->APB2RSTR &= ~(1 << 16)); } while(0)
-#define TIM16_CLK_RESET()   do { (RCC->APB2RSTR |=  (1 << 17)); (RCC->APB2RSTR &= ~(1 << 17)); } while(0)
-#define TIM17_CLK_RESET()   do { (RCC->APB2RSTR |=  (1 << 18)); (RCC->APB2RSTR &= ~(1 << 18)); } while(0)
-#define TIM2_CLK_RESET()    do { (RCC->APB1RSTR |=  (1 << 0));  (RCC->APB1RSTR &= ~(1 << 0));  } while(0)
-#define TIM20_CLK_RESET()   do { (RCC->APB2RSTR |=  (1 << 20)); (RCC->APB2RSTR &= ~(1 << 20)); } while(0)
-#define TIM3_CLK_RESET()    do { (RCC->APB1RSTR |=  (1 << 1));  (RCC->APB1RSTR &= ~(1 << 1));  } while(0)
-#define TIM4_CLK_RESET()    do { (RCC->APB1RSTR |=  (1 << 2));  (RCC->APB1RSTR &= ~(1 << 2));  } while(0)
-#define TIM6_CLK_RESET()    do { (RCC->APB1RSTR |=  (1 << 4));  (RCC->APB1RSTR &= ~(1 << 4));  } while(0)
-#define TIM7_CLK_RESET()    do { (RCC->APB1RSTR |=  (1 << 5));  (RCC->APB1RSTR &= ~(1 << 5));  } while(0)
-#define TIM8_CLK_RESET()    do { (RCC->APB2RSTR |=  (1 << 13)); (RCC->APB2RSTR &= ~(1 << 13)); } while(0)
-#define WWDG_CLK_RESET()    do { (RCC->APB1RSTR |=  (1 << 11)); (RCC->APB1RSTR &= ~(1 << 11)); } while(0)
+#define TIM1_REG_RST()    do { (RCC->APB2RSTR |=  (1 << 11)); (RCC->APB2RSTR &= ~(1 << 11)); } while(0)
+#define TIM15_REG_RST()   do { (RCC->APB2RSTR |=  (1 << 16)); (RCC->APB2RSTR &= ~(1 << 16)); } while(0)
+#define TIM16_REG_RST()   do { (RCC->APB2RSTR |=  (1 << 17)); (RCC->APB2RSTR &= ~(1 << 17)); } while(0)
+#define TIM17_REG_RST()   do { (RCC->APB2RSTR |=  (1 << 18)); (RCC->APB2RSTR &= ~(1 << 18)); } while(0)
+#define TIM2_REG_RST()    do { (RCC->APB1RSTR |=  (1 << 0));  (RCC->APB1RSTR &= ~(1 << 0));  } while(0)
+#define TIM20_REG_RST()   do { (RCC->APB2RSTR |=  (1 << 20)); (RCC->APB2RSTR &= ~(1 << 20)); } while(0)
+#define TIM3_REG_RST()    do { (RCC->APB1RSTR |=  (1 << 1));  (RCC->APB1RSTR &= ~(1 << 1));  } while(0)
+#define TIM4_REG_RST()    do { (RCC->APB1RSTR |=  (1 << 2));  (RCC->APB1RSTR &= ~(1 << 2));  } while(0)
+#define TIM6_REG_RST()    do { (RCC->APB1RSTR |=  (1 << 4));  (RCC->APB1RSTR &= ~(1 << 4));  } while(0)
+#define TIM7_REG_RST()    do { (RCC->APB1RSTR |=  (1 << 5));  (RCC->APB1RSTR &= ~(1 << 5));  } while(0)
+#define TIM8_REG_RST()    do { (RCC->APB2RSTR |=  (1 << 13)); (RCC->APB2RSTR &= ~(1 << 13)); } while(0)
+#define WWDG_REG_RST()    do { (RCC->APB1RSTR |=  (1 << 11)); (RCC->APB1RSTR &= ~(1 << 11)); } while(0)
 
 
 
@@ -529,5 +621,6 @@ typedef struct
 #include "stm32f303xx_spi_driver.h"
 #include "stm32f303xx_i2c_driver.h"
 #include "stm32f303xx_usart_driver.h"
+#include "stm32f303xx_tim_driver.h"
 
 #endif /* INC_STM32F303XX_H_ */
