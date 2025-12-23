@@ -41,7 +41,7 @@
 
 //Base Addresses of various peripherals
 
-//GPIO Peripherals
+//GPIOx Peripherals
 #define GPIOA_BASEADDR				(AHB2_BASEADDR + 0x0000)
 #define GPIOB_BASEADDR				(AHB2_BASEADDR + 0x0400)
 #define GPIOC_BASEADDR				(AHB2_BASEADDR + 0x0800)
@@ -65,15 +65,34 @@
 #define I2C2_BASEADDR				(APB1_BASEADDR + 0x5800)
 #define I2C1_BASEADDR				(APB1_BASEADDR + 0x5400)
 
-//UART USART Peripherals
+//UARTx USARTx Peripherals
 #define UART5_BASEADDR				(APB1_BASEADDR + 0x5000)
 #define UART4_BASEADDR				(APB1_BASEADDR + 0x4C00)
 #define USART3_BASEADDR				(APB1_BASEADDR + 0x4800)
 #define USART2_BASEADDR				(APB1_BASEADDR + 0x4400)
 #define USART1_BASEADDR				(APB2_BASEADDR + 0x3800)
 
+//TIMx Peripherals
+#define TIM1_BASEADDR				(APB2_BASEADDR + 0x2C00)
+#define TIM2_BASEADDR				(APB1_BASEADDR + 0x0000)
+#define TIM3_BASEADDR				(APB1_BASEADDR + 0x0400)
+#define TIM4_BASEADDR				(APB1_BASEADDR + 0x0800)
+#define TIM6_BASEADDR				(APB1_BASEADDR + 0x1000)
+#define TIM7_BASEADDR				(APB1_BASEADDR + 0x1400)
+#define TIM8_BASEADDR				(APB2_BASEADDR + 0x3400)
+#define TIM15_BASEADDR				(APB2_BASEADDR + 0x4000)
+#define TIM16_BASEADDR				(APB2_BASEADDR + 0x4400)
+#define TIM17_BASEADDR				(APB2_BASEADDR + 0x4800)
+#define TIM20_BASEADDR				(APB2_BASEADDR + 0x5000)
+#define IWDG_BASEADDR				(APB1_BASEADDR + 0x3000)
+#define WWDG_BASEADDR				(APB1_BASEADDR + 0x2C00)
+#define RTC_BASEADDR				(APB1_BASEADDR + 0x2800)
+
+
 #define EXTI_BASEADDR				(APB2_BASEADDR + 0x0400)
 #define SYSCFG_BASEADDR				(APB2_BASEADDR + 0x0000)
+
+
 
 
 
@@ -166,6 +185,35 @@ typedef struct{
 	__vo uint32_t TDR;
 
 } USART_Regs_t;
+
+
+//Structure for General Purpose 1 TIMx registers (TIM 2, 3, 4)
+typedef struct
+{
+    __vo uint32_t CR1;      // 0x00
+    __vo uint32_t CR2;      // 0x04
+    __vo uint32_t SMCR;     // 0x08
+    __vo uint32_t DIER;     // 0x0C
+    __vo uint32_t SR;       // 0x10
+    __vo uint32_t EGR;      // 0x14
+    __vo uint32_t CCMR1;    // 0x18
+    __vo uint32_t CCMR2;    // 0x1C
+    __vo uint32_t CCER;     // 0x20
+    __vo uint32_t CNT;      // 0x24
+    __vo uint32_t PSC;      // 0x28
+    __vo uint32_t ARR;      // 0x2C
+    uint32_t RESERVED0;     // 0x30
+    __vo uint32_t CCR1;     // 0x34
+    __vo uint32_t CCR2;     // 0x38
+    __vo uint32_t CCR3;     // 0x3C
+    __vo uint32_t CCR4;     // 0x40
+    uint32_t RESERVED1;     // 0x44
+    __vo uint32_t DCR;      // 0x48
+    __vo uint32_t DMAR;     // 0x4C
+
+} GP1_TIM_Regs_t;
+
+
 
 
 //GPIO Peripheral definitions
@@ -325,6 +373,12 @@ typedef struct{
 #define USART_ICR_WUCF      (1U << 20)  /* Wakeup from Stop mode clear */
 
 
+#define TIM2   				((GP1_TIM_Regs_t*)TIM2_BASEADDR)
+#define TIM3   				((GP1_TIM_Regs_t*)TIM3_BASEADDR)
+#define TIM4   				((GP1_TIM_Regs_t*)TIM4_BASEADDR)
+
+
+
 //Clock Enable Macros for GPIOx
 #define GPIOA_CLK_EN()				( RCC -> AHBENR |= (1 << 17))
 #define GPIOB_CLK_EN()				( RCC -> AHBENR |= (1 << 18))
@@ -355,6 +409,23 @@ typedef struct{
 #define USART3_CLK_EN()				(RCC -> APB1ENR |= (1 << 18))
 #define UART4_CLK_EN()				(RCC -> APB1ENR |= (1 << 19))
 #define UART5_CLK_EN()				(RCC -> APB1ENR |= (1 << 20))
+
+
+//Clock Enable Macros for TIMx
+#define TIM1_CLK_EN()				( RCC -> APB2ENR |= (1 << 11))
+#define TIM2_CLK_EN()				( RCC -> APB1ENR |= (1 << 0))
+#define TIM3_CLK_EN()				( RCC -> APB1ENR |= (1 << 1))
+#define TIM4_CLK_EN()				( RCC -> APB1ENR |= (1 << 2))
+#define TIM6_CLK_EN()				( RCC -> APB1ENR |= (1 << 4))
+#define TIM7_CLK_EN()				( RCC -> APB1ENR |= (1 << 5))
+#define TIM8_CLK_EN()				( RCC -> APB2ENR |= (1 << 13))
+#define TIM15_CLK_EN()				( RCC -> APB2ENR |= (1 << 16))
+#define TIM16_CLK_EN()				( RCC -> APB2ENR |= (1 << 17))
+#define TIM17_CLK_EN()				( RCC -> APB2ENR |= (1 << 18))
+#define TIM20_CLK_EN()				( RCC -> APB2ENR |= (1 << 20))
+//#define IWDG_CLK_EN()				( RCC -> APB1ENR |= (1 << 17))
+#define WWDG_CLK_EN()				( RCC -> APB1ENR |= (1 << 11))
+//#define RTC_CLK_EN()				( RCC -> APB1ENR |= (1 << 17))
 
 
 //Clock Enable Macros for SYSCFG & EXTI
