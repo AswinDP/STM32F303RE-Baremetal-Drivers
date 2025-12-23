@@ -423,9 +423,9 @@ typedef struct
 #define TIM16_CLK_EN()				( RCC -> APB2ENR |= (1 << 17))
 #define TIM17_CLK_EN()				( RCC -> APB2ENR |= (1 << 18))
 #define TIM20_CLK_EN()				( RCC -> APB2ENR |= (1 << 20))
-//#define IWDG_CLK_EN()				( RCC -> APB1ENR |= (1 << 17))
 #define WWDG_CLK_EN()				( RCC -> APB1ENR |= (1 << 11))
-//#define RTC_CLK_EN()				( RCC -> APB1ENR |= (1 << 17))
+//#define IWDG_CLK_EN()
+//#define RTC_CLK_EN()
 
 
 //Clock Enable Macros for SYSCFG & EXTI
@@ -463,6 +463,23 @@ typedef struct
 #define UART5_CLK_DI()				(RCC -> APB1ENR &= ~(1 << 20))
 
 
+//Clock Disable Macros for TIMx
+#define TIM1_CLK_DI()				( RCC -> APB2ENR &= ~(1 << 11))
+#define TIM2_CLK_DI()				( RCC -> APB1ENR &= ~(1 << 0))
+#define TIM3_CLK_DI()				( RCC -> APB1ENR &= ~(1 << 1))
+#define TIM4_CLK_DI()				( RCC -> APB1ENR &= ~(1 << 2))
+#define TIM6_CLK_DI()				( RCC -> APB1ENR &= ~(1 << 4))
+#define TIM7_CLK_DI()				( RCC -> APB1ENR &= ~(1 << 5))
+#define TIM8_CLK_DI()				( RCC -> APB2ENR &= ~(1 << 13))
+#define TIM15_CLK_DI()				( RCC -> APB2ENR &= ~(1 << 16))
+#define TIM16_CLK_DI()				( RCC -> APB2ENR &= ~(1 << 17))
+#define TIM17_CLK_DI()				( RCC -> APB2ENR &= ~(1 << 18))
+#define TIM20_CLK_DI()				( RCC -> APB2ENR &= ~(1 << 20))
+#define WWDG_CLK_DI()				( RCC -> APB1ENR &= ~(1 << 11))
+//#define IWDG_CLK_DI()
+//#define RTC_CLK_DI()
+
+
 //Clock Disable Macros for SYSCFG & EXTI
 #define SYSCFG_CLK_DI()				( RCC -> APB2ENR &= ~(1 << 0))
 
@@ -490,6 +507,22 @@ typedef struct
 #define USART3_REG_RST()			do {( RCC -> APB1RSTR |= (1 << 18));  ( RCC -> APB1RSTR &= ~(1 << 18));} while(0)
 #define UART4_REG_RST()				do {( RCC -> APB1RSTR |= (1 << 19));  ( RCC -> APB1RSTR &= ~(1 << 19));} while(0)
 #define UART5_REG_RST()				do {( RCC -> APB1RSTR |= (1 << 20));  ( RCC -> APB1RSTR &= ~(1 << 20));} while(0)
+
+
+//Clock Reset Macros for TIMx
+#define TIM1_CLK_RESET()    do { (RCC->APB2RSTR |=  (1 << 11)); (RCC->APB2RSTR &= ~(1 << 11)); } while(0)
+#define TIM15_CLK_RESET()   do { (RCC->APB2RSTR |=  (1 << 16)); (RCC->APB2RSTR &= ~(1 << 16)); } while(0)
+#define TIM16_CLK_RESET()   do { (RCC->APB2RSTR |=  (1 << 17)); (RCC->APB2RSTR &= ~(1 << 17)); } while(0)
+#define TIM17_CLK_RESET()   do { (RCC->APB2RSTR |=  (1 << 18)); (RCC->APB2RSTR &= ~(1 << 18)); } while(0)
+#define TIM2_CLK_RESET()    do { (RCC->APB1RSTR |=  (1 << 0));  (RCC->APB1RSTR &= ~(1 << 0));  } while(0)
+#define TIM20_CLK_RESET()   do { (RCC->APB2RSTR |=  (1 << 20)); (RCC->APB2RSTR &= ~(1 << 20)); } while(0)
+#define TIM3_CLK_RESET()    do { (RCC->APB1RSTR |=  (1 << 1));  (RCC->APB1RSTR &= ~(1 << 1));  } while(0)
+#define TIM4_CLK_RESET()    do { (RCC->APB1RSTR |=  (1 << 2));  (RCC->APB1RSTR &= ~(1 << 2));  } while(0)
+#define TIM6_CLK_RESET()    do { (RCC->APB1RSTR |=  (1 << 4));  (RCC->APB1RSTR &= ~(1 << 4));  } while(0)
+#define TIM7_CLK_RESET()    do { (RCC->APB1RSTR |=  (1 << 5));  (RCC->APB1RSTR &= ~(1 << 5));  } while(0)
+#define TIM8_CLK_RESET()    do { (RCC->APB2RSTR |=  (1 << 13)); (RCC->APB2RSTR &= ~(1 << 13)); } while(0)
+#define WWDG_CLK_RESET()    do { (RCC->APB1RSTR |=  (1 << 11)); (RCC->APB1RSTR &= ~(1 << 11)); } while(0)
+
 
 
 #include "stm32f303xx_gpio_driver.h"
