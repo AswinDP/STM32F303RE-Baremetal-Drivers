@@ -24,8 +24,19 @@ typedef struct{
 
 typedef struct{
 
+	uint32_t GP1TIM_ICPolarity;
+	uint32_t GP1TIM_ICSelection;
+	uint32_t GP1TIM_ICPrescaler;
+	uint32_t GP1TIM_ICFilter;
+
+}GP1_TIM_IC_Config_t;
+
+
+typedef struct{
+
 	GP1_TIM_Regs_t *pGP1TIMx;
 	GP1_TIM_Config_t GP1_TIM_Config;
+	GP1_TIM_IC_Config_t GP1_TIM_IC_Config;
     uint32_t Channel;            /* Active channel */
     uint8_t  State;              /* RESET / READY / BUSY */
 
@@ -48,6 +59,38 @@ typedef struct{
 #define GP1_TIM_CHANNEL_2  					2
 #define GP1_TIM_CHANNEL_3   				3
 #define GP1_TIM_CHANNEL_4   				4
+
+#define GP1_TIM_IC_POLARITY_RISING     		0   /* CCxP = 0, CCxNP = 0 */
+#define GP1_TIM_IC_POLARITY_FALLING    		1   /* CCxP = 1, CCxNP = 0 */
+#define GP1_TIM_IC_POLARITY_BOTHEDGE   		2   /* CCxP = 1, CCxNP = 1 */
+
+#define GP1_TIM_IC_SELECTION_TI1   			1   /* CCxS = 01 */
+#define GP1_TIM_IC_SELECTION_TI2   			2   /* CCxS = 10 */
+#define GP1_TIM_IC_SELECTION_TRC   			3   /* CCxS = 11 */
+
+#define GP1_TIM_IC_PSC_DIV1   				0   /* Capture every edge */
+#define GP1_TIM_IC_PSC_DIV2   				1   /* Capture every 2nd edge */
+#define GP1_TIM_IC_PSC_DIV4   				2   /* Capture every 4th edge */
+#define GP1_TIM_IC_PSC_DIV8   				3   /* Capture every 8th edge */
+
+#define GP1_TIM_IC_FILTER_NONE   			0x00U
+#define GP1_TIM_IC_FILTER_1      			0x01U
+#define GP1_TIM_IC_FILTER_2      			0x02U
+#define GP1_TIM_IC_FILTER_3      			0x03U
+#define GP1_TIM_IC_FILTER_4      			0x04U
+#define GP1_TIM_IC_FILTER_5      			0x05U
+#define GP1_TIM_IC_FILTER_6      			0x06U
+#define GP1_TIM_IC_FILTER_7      			0x07U
+#define GP1_TIM_IC_FILTER_8      			0x08U
+#define GP1_TIM_IC_FILTER_9      			0x09U
+#define GP1_TIM_IC_FILTER_10     			0x0AU
+#define GP1_TIM_IC_FILTER_11     			0x0BU
+#define GP1_TIM_IC_FILTER_12     			0x0CU
+#define GP1_TIM_IC_FILTER_13     			0x0DU
+#define GP1_TIM_IC_FILTER_14     			0x0EU
+#define GP1_TIM_IC_FILTER_15     			0x0FU
+
+
 
 
 /* Clock control */

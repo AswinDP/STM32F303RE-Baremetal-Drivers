@@ -152,15 +152,25 @@ void GP1TIM_IC_Init(GP1_TIM_Handle_t *pTIMHandle)
 
 		temp = pTIMHandle->pGP1TIMx->CCMR1;
 		temp &= ~(15 << GP1_TIM_CCMR1_IC1F);
+		temp |= (pTIMHandle->GP1_TIM_IC_Config.GP1TIM_ICFilter << GP1_TIM_CCMR1_IC1F);
 		temp &= ~(3 << GP1_TIM_CCMR1_IC1PSC);
-		temp &= ~(3 << GP1_TIM_CCMR1_CC1S); //reset those 2 bits and then set LSB
-		temp |= (1 << GP1_TIM_CCMR1_CC1S);
+		temp |= (pTIMHandle->GP1_TIM_IC_Config.GP1TIM_ICPrescaler << GP1_TIM_CCMR1_IC1PSC);
+		temp &= ~(3 << GP1_TIM_CCMR1_CC1S);
+		temp |= (pTIMHandle->GP1_TIM_IC_Config.GP1TIM_ICSelection << GP1_TIM_CCMR1_CC1S);
 		pTIMHandle->pGP1TIMx->CCMR1 = temp;
 
 		pTIMHandle->pGP1TIMx->CCER &= ~(1 << GP1_TIM_CCER_CC1P);
 		pTIMHandle->pGP1TIMx->CCER &= ~(1 << GP1_TIM_CCER_CC1NP);
+		if(pTIMHandle->GP1_TIM_IC_Config.GP1TIM_ICPolarity == GP1_TIM_IC_POLARITY_FALLING)
+		{
+		    pTIMHandle->pGP1TIMx->CCER |= (1 << GP1_TIM_CCER_CC1P);
+		}
+		else if(pTIMHandle->GP1_TIM_IC_Config.GP1TIM_ICPolarity == GP1_TIM_IC_POLARITY_BOTHEDGE)
+		{
+			pTIMHandle->pGP1TIMx->CCER |= (1 << GP1_TIM_CCER_CC1P);
+			pTIMHandle->pGP1TIMx->CCER |= (1 << GP1_TIM_CCER_CC1NP);
+		}
 
-		pTIMHandle->pGP1TIMx->CCER |= (1 << GP1_TIM_CCER_CC1E);
 	}
 	else if(pTIMHandle->Channel == GP1_TIM_CHANNEL_2)
 	{
@@ -168,15 +178,24 @@ void GP1TIM_IC_Init(GP1_TIM_Handle_t *pTIMHandle)
 
 		temp = pTIMHandle->pGP1TIMx->CCMR1;
 		temp &= ~(15 << GP1_TIM_CCMR1_IC2F);
+		temp |= (pTIMHandle->GP1_TIM_IC_Config.GP1TIM_ICFilter << GP1_TIM_CCMR1_IC2F);
 		temp &= ~(3 << GP1_TIM_CCMR1_IC2PSC);
-		temp &= ~(3 << GP1_TIM_CCMR1_CC2S); //reset those 2 bits and then set LSB
-		temp |= (1 << GP1_TIM_CCMR1_CC2S);
+		temp |= (pTIMHandle->GP1_TIM_IC_Config.GP1TIM_ICPrescaler << GP1_TIM_CCMR1_IC2PSC);
+		temp &= ~(3 << GP1_TIM_CCMR1_CC2S);
+		temp |= (pTIMHandle->GP1_TIM_IC_Config.GP1TIM_ICSelection << GP1_TIM_CCMR1_CC2S);
 		pTIMHandle->pGP1TIMx->CCMR1 = temp;
 
 		pTIMHandle->pGP1TIMx->CCER &= ~(1 << GP1_TIM_CCER_CC2P);
 		pTIMHandle->pGP1TIMx->CCER &= ~(1 << GP1_TIM_CCER_CC2NP);
-
-		pTIMHandle->pGP1TIMx->CCER |= (1 << GP1_TIM_CCER_CC2E);
+		if(pTIMHandle->GP1_TIM_IC_Config.GP1TIM_ICPolarity == GP1_TIM_IC_POLARITY_FALLING)
+		{
+		    pTIMHandle->pGP1TIMx->CCER |= (1 << GP1_TIM_CCER_CC2P);
+		}
+		else if(pTIMHandle->GP1_TIM_IC_Config.GP1TIM_ICPolarity == GP1_TIM_IC_POLARITY_BOTHEDGE)
+		{
+			pTIMHandle->pGP1TIMx->CCER |= (1 << GP1_TIM_CCER_CC2P);
+			pTIMHandle->pGP1TIMx->CCER |= (1 << GP1_TIM_CCER_CC2NP);
+		}
 	}
 	else if(pTIMHandle->Channel == GP1_TIM_CHANNEL_3)
 	{
@@ -184,15 +203,24 @@ void GP1TIM_IC_Init(GP1_TIM_Handle_t *pTIMHandle)
 
 		temp = pTIMHandle->pGP1TIMx->CCMR2;
 		temp &= ~(15 << GP1_TIM_CCMR2_IC3F);
+		temp |= (pTIMHandle->GP1_TIM_IC_Config.GP1TIM_ICFilter << GP1_TIM_CCMR2_IC3F);
 		temp &= ~(3 << GP1_TIM_CCMR2_IC3PSC);
-		temp &= ~(3 << GP1_TIM_CCMR2_CC3S); //reset those 2 bits and then set LSB
-		temp |= (1 << GP1_TIM_CCMR2_CC3S);
+		temp |= (pTIMHandle->GP1_TIM_IC_Config.GP1TIM_ICPrescaler << GP1_TIM_CCMR2_IC3PSC);
+		temp &= ~(3 << GP1_TIM_CCMR2_CC3S);
+		temp |= (pTIMHandle->GP1_TIM_IC_Config.GP1TIM_ICSelection << GP1_TIM_CCMR2_CC3S);
 		pTIMHandle->pGP1TIMx->CCMR2 = temp;
 
 		pTIMHandle->pGP1TIMx->CCER &= ~(1 << GP1_TIM_CCER_CC3P);
 		pTIMHandle->pGP1TIMx->CCER &= ~(1 << GP1_TIM_CCER_CC3NP);
-
-		pTIMHandle->pGP1TIMx->CCER |= (1 << GP1_TIM_CCER_CC3E);
+		if(pTIMHandle->GP1_TIM_IC_Config.GP1TIM_ICPolarity == GP1_TIM_IC_POLARITY_FALLING)
+		{
+		    pTIMHandle->pGP1TIMx->CCER |= (1 << GP1_TIM_CCER_CC3P);
+		}
+		else if(pTIMHandle->GP1_TIM_IC_Config.GP1TIM_ICPolarity == GP1_TIM_IC_POLARITY_BOTHEDGE)
+		{
+			pTIMHandle->pGP1TIMx->CCER |= (1 << GP1_TIM_CCER_CC3P);
+			pTIMHandle->pGP1TIMx->CCER |= (1 << GP1_TIM_CCER_CC3NP);
+		}
 	}
 	else
 	{
@@ -200,22 +228,129 @@ void GP1TIM_IC_Init(GP1_TIM_Handle_t *pTIMHandle)
 
 		temp = pTIMHandle->pGP1TIMx->CCMR2;
 		temp &= ~(15 << GP1_TIM_CCMR2_IC4F);
+		temp |= (pTIMHandle->GP1_TIM_IC_Config.GP1TIM_ICFilter << GP1_TIM_CCMR2_IC4F);
 		temp &= ~(3 << GP1_TIM_CCMR2_IC4PSC);
-		temp &= ~(3 << GP1_TIM_CCMR2_CC4S); //reset those 2 bits and then set LSB
-		temp |= (1 << GP1_TIM_CCMR2_CC4S);
+		temp |= (pTIMHandle->GP1_TIM_IC_Config.GP1TIM_ICPrescaler << GP1_TIM_CCMR2_IC4PSC);
+		temp &= ~(3 << GP1_TIM_CCMR2_CC4S);
+		temp |= (pTIMHandle->GP1_TIM_IC_Config.GP1TIM_ICSelection << GP1_TIM_CCMR2_CC4S);
 		pTIMHandle->pGP1TIMx->CCMR2 = temp;
 
 		pTIMHandle->pGP1TIMx->CCER &= ~(1 << GP1_TIM_CCER_CC4P);
 		pTIMHandle->pGP1TIMx->CCER &= ~(1 << GP1_TIM_CCER_CC4NP);
+		if(pTIMHandle->GP1_TIM_IC_Config.GP1TIM_ICPolarity == GP1_TIM_IC_POLARITY_FALLING)
+		{
+		    pTIMHandle->pGP1TIMx->CCER |= (1 << GP1_TIM_CCER_CC4P);
+		}
+		else if(pTIMHandle->GP1_TIM_IC_Config.GP1TIM_ICPolarity == GP1_TIM_IC_POLARITY_BOTHEDGE)
+		{
+			pTIMHandle->pGP1TIMx->CCER |= (1 << GP1_TIM_CCER_CC4P);
+			pTIMHandle->pGP1TIMx->CCER |= (1 << GP1_TIM_CCER_CC4NP);
+		}
+	}
+}
 
+
+void GP1TIM_IC_Start(GP1_TIM_Handle_t *pTIMHandle)
+{
+	if(pTIMHandle->Channel == GP1_TIM_CHANNEL_1)
+	{
+		pTIMHandle->pGP1TIMx->SR &= ~(1 << GP1_TIM_SR_CC1IF);
+		pTIMHandle->pGP1TIMx->SR &= ~(1 << GP1_TIM_SR_CC1OF);
+		pTIMHandle->pGP1TIMx->CCER |= (1 << GP1_TIM_CCER_CC1E);
+	}
+	else if(pTIMHandle->Channel == GP1_TIM_CHANNEL_2)
+	{
+		pTIMHandle->pGP1TIMx->SR &= ~(1 << GP1_TIM_SR_CC2IF);
+		pTIMHandle->pGP1TIMx->SR &= ~(1 << GP1_TIM_SR_CC2OF);
+		pTIMHandle->pGP1TIMx->CCER |= (1 << GP1_TIM_CCER_CC2E);
+	}
+	else if(pTIMHandle->Channel == GP1_TIM_CHANNEL_3)
+	{
+		pTIMHandle->pGP1TIMx->SR &= ~(1 << GP1_TIM_SR_CC3IF);
+		pTIMHandle->pGP1TIMx->SR &= ~(1 << GP1_TIM_SR_CC3OF);
+		pTIMHandle->pGP1TIMx->CCER |= (1 << GP1_TIM_CCER_CC3E);
+	}
+	else
+	{
+		pTIMHandle->pGP1TIMx->SR &= ~(1 << GP1_TIM_SR_CC4IF);
+		pTIMHandle->pGP1TIMx->SR &= ~(1 << GP1_TIM_SR_CC4OF);
 		pTIMHandle->pGP1TIMx->CCER |= (1 << GP1_TIM_CCER_CC4E);
 	}
 }
 
 
-void GP1TIM_IC_Start(GP1_TIM_Handle_t *pTIMHandle);
-void GP1TIM_IC_Stop(GP1_TIM_Handle_t *pTIMHandle);
-uint32_t GP1TIM_IC_GetCaptureValue(GP1_TIM_Handle_t *pTIMHandle);
+void GP1TIM_IC_Stop(GP1_TIM_Handle_t *pTIMHandle)
+{
+	if(pTIMHandle->Channel == GP1_TIM_CHANNEL_1)
+	{
+		pTIMHandle->pGP1TIMx->SR &= ~(1 << GP1_TIM_SR_CC1IF);
+		pTIMHandle->pGP1TIMx->SR &= ~(1 << GP1_TIM_SR_CC1OF);
+		pTIMHandle->pGP1TIMx->CCER &= ~(1 << GP1_TIM_CCER_CC1E);
+	}
+	else if(pTIMHandle->Channel == GP1_TIM_CHANNEL_2)
+	{
+		pTIMHandle->pGP1TIMx->SR &= ~(1 << GP1_TIM_SR_CC2IF);
+		pTIMHandle->pGP1TIMx->SR &= ~(1 << GP1_TIM_SR_CC2OF);
+		pTIMHandle->pGP1TIMx->CCER &= ~(1 << GP1_TIM_CCER_CC2E);
+	}
+	else if(pTIMHandle->Channel == GP1_TIM_CHANNEL_3)
+	{
+		pTIMHandle->pGP1TIMx->SR &= ~(1 << GP1_TIM_SR_CC3IF);
+		pTIMHandle->pGP1TIMx->SR &= ~(1 << GP1_TIM_SR_CC3OF);
+		pTIMHandle->pGP1TIMx->CCER &= ~(1 << GP1_TIM_CCER_CC3E);
+	}
+	else
+	{
+		pTIMHandle->pGP1TIMx->SR &= ~(1 << GP1_TIM_SR_CC4IF);
+		pTIMHandle->pGP1TIMx->SR &= ~(1 << GP1_TIM_SR_CC4OF);
+		pTIMHandle->pGP1TIMx->CCER &= ~(1 << GP1_TIM_CCER_CC4E);
+	}
+}
+
+
+uint32_t GP1TIM_IC_GetCaptureValue(GP1_TIM_Handle_t *pTIMHandle)
+{
+	uint32_t capture;
+
+	if(pTIMHandle->Channel == GP1_TIM_CHANNEL_1)
+	{
+		while(!(pTIMHandle->pGP1TIMx->SR & (1 << GP1_TIM_SR_CC1IF)));
+		capture = pTIMHandle->pGP1TIMx->CCR1;
+		pTIMHandle->pGP1TIMx->SR &= ~(1 << GP1_TIM_SR_CC1IF);
+		pTIMHandle->pGP1TIMx->SR &= ~(1 << GP1_TIM_SR_CC1OF);
+
+		return capture;
+	}
+	else if(pTIMHandle->Channel == GP1_TIM_CHANNEL_2)
+	{
+		while(!(pTIMHandle->pGP1TIMx->SR & (1 << GP1_TIM_SR_CC2IF)));
+		capture = pTIMHandle->pGP1TIMx->CCR2;
+		pTIMHandle->pGP1TIMx->SR &= ~(1 << GP1_TIM_SR_CC2IF);
+		pTIMHandle->pGP1TIMx->SR &= ~(1 << GP1_TIM_SR_CC2OF);
+
+		return capture;
+	}
+	else if(pTIMHandle->Channel == GP1_TIM_CHANNEL_3)
+	{
+		while(!(pTIMHandle->pGP1TIMx->SR & (1 << GP1_TIM_SR_CC3IF)));
+		capture = pTIMHandle->pGP1TIMx->CCR3;
+		pTIMHandle->pGP1TIMx->SR &= ~(1 << GP1_TIM_SR_CC3IF);
+		pTIMHandle->pGP1TIMx->SR &= ~(1 << GP1_TIM_SR_CC3OF);
+
+		return capture;
+	}
+	else
+	{
+		while(!(pTIMHandle->pGP1TIMx->SR & (1 << GP1_TIM_SR_CC4IF)));
+		capture = pTIMHandle->pGP1TIMx->CCR4;
+		pTIMHandle->pGP1TIMx->SR &= ~(1 << GP1_TIM_SR_CC4IF);
+		pTIMHandle->pGP1TIMx->SR &= ~(1 << GP1_TIM_SR_CC4OF);
+
+		return capture;
+	}
+
+	return 0;
+}
 
 
 void GP1TIM_DeInit(GP1_TIM_Handle_t *pTIMHandle)
