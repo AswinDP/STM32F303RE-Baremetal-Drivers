@@ -40,11 +40,14 @@ typedef struct{
 #define GP1TIM_COUNTMODE_DOWN          		1  /* DIR = 1 */
 #define GP1TIM_COUNTMODE_CENTER_ALIGNED 	2  /* CMS != 00 */
 
-#define GP1TIM_STATE_RST					RESET
-#define GP1TIM_STATE_RDY					READY
-#define GP1TIM_STATE_BSY					BUSY
+#define GP1TIM_STATE_RST					0
+#define GP1TIM_STATE_RDY					1
+#define GP1TIM_STATE_BSY					2
 
-
+#define GP1_TIM_CHANNEL_1   				1
+#define GP1_TIM_CHANNEL_2  					2
+#define GP1_TIM_CHANNEL_3   				3
+#define GP1_TIM_CHANNEL_4   				4
 
 
 /* Clock control */
@@ -73,9 +76,9 @@ void GP1TIM_PWM_SetDuty(GP1_TIM_Regs_t *pTIMx, uint8_t Channel, uint32_t Duty);
 
 /* Input Capture */
 void GP1TIM_IC_Init(GP1_TIM_Handle_t *pTIMHandle);
-void GP1TIM_IC_Start(GP1_TIM_Regs_t *pTIMx, uint8_t Channel);
-void GP1TIM_IC_Stop(GP1_TIM_Regs_t *pTIMx, uint8_t Channel);
-uint32_t GP1TIM_IC_GetCaptureValue(GP1_TIM_Regs_t *pTIMx, uint8_t Channel);
+void GP1TIM_IC_Start(GP1_TIM_Handle_t *pTIMHandle);
+void GP1TIM_IC_Stop(GP1_TIM_Handle_t *pTIMHandle);
+uint32_t GP1TIM_IC_GetCaptureValue(GP1_TIM_Handle_t *pTIMHandle);
 
 
 

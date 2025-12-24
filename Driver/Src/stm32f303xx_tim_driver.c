@@ -142,6 +142,82 @@ void GP1TIM_Delay_us(GP1_TIM_Handle_t *pTIMHandle, uint32_t delay_us)
 }
 
 
+void GP1TIM_IC_Init(GP1_TIM_Handle_t *pTIMHandle)
+{
+	uint32_t temp;
+
+	if(pTIMHandle->Channel == GP1_TIM_CHANNEL_1)
+	{
+		pTIMHandle->pGP1TIMx->CCER &= ~(GP1_TIM_CCER_CC1E);
+
+		temp = pTIMHandle->pGP1TIMx->CCMR1;
+		temp &= ~(15 << GP1_TIM_CCMR1_IC1F);
+		temp &= ~(3 << GP1_TIM_CCMR1_IC1PSC);
+		temp &= ~(3 << GP1_TIM_CCMR1_CC1S); //reset those 2 bits and then set LSB
+		temp |= (1 << GP1_TIM_CCMR1_CC1S);
+		pTIMHandle->pGP1TIMx->CCMR1 = temp;
+
+		pTIMHandle->pGP1TIMx->CCER &= ~(1 << GP1_TIM_CCER_CC1P);
+		pTIMHandle->pGP1TIMx->CCER &= ~(1 << GP1_TIM_CCER_CC1NP);
+
+		pTIMHandle->pGP1TIMx->CCER |= (1 << GP1_TIM_CCER_CC1E);
+	}
+	else if(pTIMHandle->Channel == GP1_TIM_CHANNEL_2)
+	{
+		pTIMHandle->pGP1TIMx->CCER &= ~(GP1_TIM_CCER_CC2E);
+
+		temp = pTIMHandle->pGP1TIMx->CCMR1;
+		temp &= ~(15 << GP1_TIM_CCMR1_IC2F);
+		temp &= ~(3 << GP1_TIM_CCMR1_IC2PSC);
+		temp &= ~(3 << GP1_TIM_CCMR1_CC2S); //reset those 2 bits and then set LSB
+		temp |= (1 << GP1_TIM_CCMR1_CC2S);
+		pTIMHandle->pGP1TIMx->CCMR1 = temp;
+
+		pTIMHandle->pGP1TIMx->CCER &= ~(1 << GP1_TIM_CCER_CC2P);
+		pTIMHandle->pGP1TIMx->CCER &= ~(1 << GP1_TIM_CCER_CC2NP);
+
+		pTIMHandle->pGP1TIMx->CCER |= (1 << GP1_TIM_CCER_CC2E);
+	}
+	else if(pTIMHandle->Channel == GP1_TIM_CHANNEL_3)
+	{
+		pTIMHandle->pGP1TIMx->CCER &= ~(GP1_TIM_CCER_CC3E);
+
+		temp = pTIMHandle->pGP1TIMx->CCMR2;
+		temp &= ~(15 << GP1_TIM_CCMR2_IC3F);
+		temp &= ~(3 << GP1_TIM_CCMR2_IC3PSC);
+		temp &= ~(3 << GP1_TIM_CCMR2_CC3S); //reset those 2 bits and then set LSB
+		temp |= (1 << GP1_TIM_CCMR2_CC3S);
+		pTIMHandle->pGP1TIMx->CCMR2 = temp;
+
+		pTIMHandle->pGP1TIMx->CCER &= ~(1 << GP1_TIM_CCER_CC3P);
+		pTIMHandle->pGP1TIMx->CCER &= ~(1 << GP1_TIM_CCER_CC3NP);
+
+		pTIMHandle->pGP1TIMx->CCER |= (1 << GP1_TIM_CCER_CC3E);
+	}
+	else
+	{
+		pTIMHandle->pGP1TIMx->CCER &= ~(GP1_TIM_CCER_CC4E);
+
+		temp = pTIMHandle->pGP1TIMx->CCMR2;
+		temp &= ~(15 << GP1_TIM_CCMR2_IC4F);
+		temp &= ~(3 << GP1_TIM_CCMR2_IC4PSC);
+		temp &= ~(3 << GP1_TIM_CCMR2_CC4S); //reset those 2 bits and then set LSB
+		temp |= (1 << GP1_TIM_CCMR2_CC4S);
+		pTIMHandle->pGP1TIMx->CCMR2 = temp;
+
+		pTIMHandle->pGP1TIMx->CCER &= ~(1 << GP1_TIM_CCER_CC4P);
+		pTIMHandle->pGP1TIMx->CCER &= ~(1 << GP1_TIM_CCER_CC4NP);
+
+		pTIMHandle->pGP1TIMx->CCER |= (1 << GP1_TIM_CCER_CC4E);
+	}
+}
+
+
+void GP1TIM_IC_Start(GP1_TIM_Handle_t *pTIMHandle);
+void GP1TIM_IC_Stop(GP1_TIM_Handle_t *pTIMHandle);
+uint32_t GP1TIM_IC_GetCaptureValue(GP1_TIM_Handle_t *pTIMHandle);
+
+
 void GP1TIM_DeInit(GP1_TIM_Handle_t *pTIMHandle)
 {
 	if(pTIMHandle->pGP1TIMx == TIM2)
