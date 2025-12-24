@@ -97,6 +97,51 @@ void GP1TIM_Stop(GP1_TIM_Handle_t *pTIMHandle)
 }
 
 
+void GP1TIM_Delay_ms(GP1_TIM_Handle_t *pTIMHandle, uint32_t delay_ms)
+{
+	// Max delay using Delay_ms is ~65.5 seconds for 16-bit timers (TIM3, TIM4)
+	if(pTIMHandle->State == GP1TIM_STATE_RDY)
+	{
+		//Assuming 8MHz Clock
+		pTIMHandle->pGP1TIMx->PSC = 7999;
+		pTIMHandle->pGP1TIMx->ARR = delay_ms - 1;
+
+		pTIMHandle->pGP1TIMx->EGR |= (1 << GP1_TIM_EGR_UG);
+		pTIMHandle->pGP1TIMx->SR &= ~(1 << GP1_TIM_SR_UIF);
+
+		GP1TIM_Start(pTIMHandle);
+
+		while(!(pTIMHandle->pGP1TIMx->SR & (1 << GP1_TIM_SR_UIF)));
+		pTIMHandle->pGP1TIMx->SR &= ~(1 << GP1_TIM_SR_UIF);
+
+		GP1TIM_Stop(pTIMHandle);
+	}
+}
+
+
+void GP1TIM_Delay_us(GP1_TIM_Handle_t *pTIMHandle, uint32_t delay_us)
+{
+	// Max delay using Delay_us is ~65 ms for 16-bit timers (TIM3, TIM4)
+	// and ~71 minutes for 32-bit timer (TIM2, if configured as 32-bit)
+	if(pTIMHandle->State == GP1TIM_STATE_RDY)
+	{
+		//Assuming 8MHz Clock
+		pTIMHandle->pGP1TIMx->PSC = 7;
+		pTIMHandle->pGP1TIMx->ARR = delay_us - 1;
+
+		pTIMHandle->pGP1TIMx->EGR |= (1 << GP1_TIM_EGR_UG);
+		pTIMHandle->pGP1TIMx->SR &= ~(1 << GP1_TIM_SR_UIF);
+
+		GP1TIM_Start(pTIMHandle);
+
+		while(!(pTIMHandle->pGP1TIMx->SR & (1 << GP1_TIM_SR_UIF)));
+		pTIMHandle->pGP1TIMx->SR &= ~(1 << GP1_TIM_SR_UIF);
+
+		GP1TIM_Stop(pTIMHandle);
+	}
+}
+
+
 void GP1TIM_DeInit(GP1_TIM_Handle_t *pTIMHandle)
 {
 	if(pTIMHandle->pGP1TIMx == TIM2)
