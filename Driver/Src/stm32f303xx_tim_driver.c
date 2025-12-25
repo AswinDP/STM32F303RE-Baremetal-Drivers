@@ -353,6 +353,287 @@ uint32_t GP1TIM_IC_GetCaptureValue(GP1_TIM_Handle_t *pTIMHandle)
 }
 
 
+/* Output Compare */
+void GP1TIM_OC_Init(GP1_TIM_Handle_t *pTIMHandle)
+{
+	if(pTIMHandle->State == GP1TIM_STATE_RDY)
+	{
+		uint32_t temp;
+
+		if(pTIMHandle->Channel == GP1_TIM_CHANNEL_1)
+		{
+			temp = pTIMHandle->pGP1TIMx->CCER;
+			temp &= ~(1 << GP1_TIM_CCER_CC1E);
+			temp &= ~(1 << GP1_TIM_CCER_CC1NP);
+			temp &= ~(1 << GP1_TIM_CCER_CC1P);
+			temp |= (pTIMHandle->GP1_TIM_OC_Config.GP1TIM_OCPolarity << GP1_TIM_CCER_CC1P);
+			pTIMHandle->pGP1TIMx->CCER = temp;
+
+			temp = pTIMHandle->pGP1TIMx->CCMR1;
+			temp &= ~(3 << GP1_TIM_CCMR1_CC1S);
+			temp |= (1 << GP1_TIM_CCMR1_OC1PE);
+			temp &= ~(1 << GP1_TIM_CCMR1_OC1FE);
+			temp &= ~(1 << GP1_TIM_CCMR1_OC1CE);
+			temp &= ~(15 << GP1_TIM_CCMR1_OC1M);
+			temp |= (pTIMHandle->GP1_TIM_OC_Config.GP1TIM_OCMode << GP1_TIM_CCMR1_OC1M);
+			pTIMHandle->pGP1TIMx->CCMR1 = temp;
+
+			pTIMHandle->pGP1TIMx->CCR1 = pTIMHandle->GP1_TIM_OC_Config.GP1TIM_Compare;
+
+		}
+		else if(pTIMHandle->Channel == GP1_TIM_CHANNEL_2)
+		{
+			temp = pTIMHandle->pGP1TIMx->CCER;
+			temp &= ~(1 << GP1_TIM_CCER_CC2E);
+			temp &= ~(1 << GP1_TIM_CCER_CC2NP);
+			temp &= ~(1 << GP1_TIM_CCER_CC2P);
+			temp |= (pTIMHandle->GP1_TIM_OC_Config.GP1TIM_OCPolarity << GP1_TIM_CCER_CC2P);
+			pTIMHandle->pGP1TIMx->CCER = temp;
+
+			temp = pTIMHandle->pGP1TIMx->CCMR1;
+			temp &= ~(3 << GP1_TIM_CCMR1_CC2S);
+			temp |= (1 << GP1_TIM_CCMR1_OC2PE);
+			temp &= ~(1 << GP1_TIM_CCMR1_OC2FE);
+			temp &= ~(1 << GP1_TIM_CCMR1_OC2CE);
+			temp &= ~(15 << GP1_TIM_CCMR1_OC2M);
+			temp |= (pTIMHandle->GP1_TIM_OC_Config.GP1TIM_OCMode << GP1_TIM_CCMR1_OC2M);
+			pTIMHandle->pGP1TIMx->CCMR1 = temp;
+
+			pTIMHandle->pGP1TIMx->CCR2 = pTIMHandle->GP1_TIM_OC_Config.GP1TIM_Compare;
+
+		}
+		else if(pTIMHandle->Channel == GP1_TIM_CHANNEL_3)
+		{
+			temp = pTIMHandle->pGP1TIMx->CCER;
+			temp &= ~(1 << GP1_TIM_CCER_CC3E);
+			temp &= ~(1 << GP1_TIM_CCER_CC3NP);
+			temp &= ~(1 << GP1_TIM_CCER_CC3P);
+			temp |= (pTIMHandle->GP1_TIM_OC_Config.GP1TIM_OCPolarity << GP1_TIM_CCER_CC3P);
+			pTIMHandle->pGP1TIMx->CCER = temp;
+
+			temp = pTIMHandle->pGP1TIMx->CCMR2;
+			temp &= ~(3 << GP1_TIM_CCMR2_CC3S);
+			temp |= (1 << GP1_TIM_CCMR2_OC3PE);
+			temp &= ~(1 << GP1_TIM_CCMR2_OC3FE);
+			temp &= ~(1 << GP1_TIM_CCMR2_OC3CE);
+			temp &= ~(15 << GP1_TIM_CCMR2_OC3M);
+			temp |= (pTIMHandle->GP1_TIM_OC_Config.GP1TIM_OCMode << GP1_TIM_CCMR2_OC3M);
+			pTIMHandle->pGP1TIMx->CCMR2 = temp;
+
+			pTIMHandle->pGP1TIMx->CCR3 = pTIMHandle->GP1_TIM_OC_Config.GP1TIM_Compare;
+
+		}
+		else
+		{
+			temp = pTIMHandle->pGP1TIMx->CCER;
+			temp &= ~(1 << GP1_TIM_CCER_CC4E);
+			temp &= ~(1 << GP1_TIM_CCER_CC4NP);
+			temp &= ~(1 << GP1_TIM_CCER_CC4P);
+			temp |= (pTIMHandle->GP1_TIM_OC_Config.GP1TIM_OCPolarity << GP1_TIM_CCER_CC4P);
+			pTIMHandle->pGP1TIMx->CCER = temp;
+
+			temp = pTIMHandle->pGP1TIMx->CCMR2;
+			temp &= ~(3 << GP1_TIM_CCMR2_CC4S);
+			temp |= (1 << GP1_TIM_CCMR2_OC4PE);
+			temp &= ~(1 << GP1_TIM_CCMR2_OC4FE);
+			temp &= ~(1 << GP1_TIM_CCMR2_OC4CE);
+			temp &= ~(15 << GP1_TIM_CCMR2_OC4M);
+			temp |= (pTIMHandle->GP1_TIM_OC_Config.GP1TIM_OCMode << GP1_TIM_CCMR2_OC4M);
+			pTIMHandle->pGP1TIMx->CCMR2 = temp;
+
+			pTIMHandle->pGP1TIMx->CCR4 = pTIMHandle->GP1_TIM_OC_Config.GP1TIM_Compare;
+
+		}
+
+	}
+}
+
+
+void GP1TIM_OC_Start(GP1_TIM_Handle_t *pTIMHandle)
+{
+	if(pTIMHandle->Channel == GP1_TIM_CHANNEL_1)
+	{
+		pTIMHandle->pGP1TIMx->SR &= ~(1 << GP1_TIM_SR_CC1IF);
+		pTIMHandle->pGP1TIMx->CCER |= (1 << GP1_TIM_CCER_CC1E);
+	}
+	else if(pTIMHandle->Channel == GP1_TIM_CHANNEL_2)
+	{
+		pTIMHandle->pGP1TIMx->SR &= ~(1 << GP1_TIM_SR_CC2IF);
+		pTIMHandle->pGP1TIMx->CCER |= (1 << GP1_TIM_CCER_CC2E);
+	}
+	else if(pTIMHandle->Channel == GP1_TIM_CHANNEL_3)
+	{
+		pTIMHandle->pGP1TIMx->SR &= ~(1 << GP1_TIM_SR_CC3IF);
+		pTIMHandle->pGP1TIMx->CCER |= (1 << GP1_TIM_CCER_CC3E);
+	}
+	else
+	{
+		pTIMHandle->pGP1TIMx->SR &= ~(1 << GP1_TIM_SR_CC4IF);
+		pTIMHandle->pGP1TIMx->CCER |= (1 << GP1_TIM_CCER_CC4E);
+	}
+}
+
+
+void GP1TIM_OC_Stop(GP1_TIM_Handle_t *pTIMHandle)
+{
+	if(pTIMHandle->Channel == GP1_TIM_CHANNEL_1)
+	{
+		pTIMHandle->pGP1TIMx->SR &= ~(1 << GP1_TIM_SR_CC1IF);
+		pTIMHandle->pGP1TIMx->CCER &= ~(1 << GP1_TIM_CCER_CC1E);
+	}
+	else if(pTIMHandle->Channel == GP1_TIM_CHANNEL_2)
+	{
+		pTIMHandle->pGP1TIMx->SR &= ~(1 << GP1_TIM_SR_CC2IF);
+		pTIMHandle->pGP1TIMx->CCER &= ~(1 << GP1_TIM_CCER_CC2E);
+	}
+	else if(pTIMHandle->Channel == GP1_TIM_CHANNEL_3)
+	{
+		pTIMHandle->pGP1TIMx->SR &= ~(1 << GP1_TIM_SR_CC3IF);
+		pTIMHandle->pGP1TIMx->CCER &= ~(1 << GP1_TIM_CCER_CC3E);
+	}
+	else
+	{
+		pTIMHandle->pGP1TIMx->SR &= ~(1 << GP1_TIM_SR_CC4IF);
+		pTIMHandle->pGP1TIMx->CCER &= ~(1 << GP1_TIM_CCER_CC4E);
+	}
+}
+
+
+void GP1TIM_OC_SetCompare(GP1_TIM_Handle_t *pTIMHandle, uint32_t Compare)
+{
+    if(pTIMHandle->Channel == GP1_TIM_CHANNEL_1)
+    {
+    	pTIMHandle->pGP1TIMx->CCR1 = Compare;
+    }
+    else if(pTIMHandle->Channel == GP1_TIM_CHANNEL_2)
+    {
+    	pTIMHandle->pGP1TIMx->CCR2 = Compare;
+    }
+    else if(pTIMHandle->Channel == GP1_TIM_CHANNEL_3)
+    {
+    	pTIMHandle->pGP1TIMx->CCR3 = Compare;
+    }
+    else
+    {
+    	pTIMHandle->pGP1TIMx->CCR4 = Compare;
+    }
+}
+
+
+void GP1TIM_PWM_Init(GP1_TIM_Handle_t *pTIMHandle)
+{
+	if(pTIMHandle->State == GP1TIM_STATE_RDY)
+	{
+		uint32_t temp;
+
+		if(pTIMHandle->Channel == GP1_TIM_CHANNEL_1)
+		{
+			temp = pTIMHandle->pGP1TIMx->CCER;
+			temp &= ~(1 << GP1_TIM_CCER_CC1E);
+			temp &= ~(1 << GP1_TIM_CCER_CC1NP);
+			temp &= ~(1 << GP1_TIM_CCER_CC1P);
+			temp |= (pTIMHandle->GP1_TIM_PWM_Config.GP1TIM_Polarity << GP1_TIM_CCER_CC1P);
+			pTIMHandle->pGP1TIMx->CCER = temp;
+
+			temp = pTIMHandle->pGP1TIMx->CCMR1;
+			temp &= ~(3 << GP1_TIM_CCMR1_CC1S);
+			temp |= (1 << GP1_TIM_CCMR1_OC1PE);
+			temp &= ~(1 << GP1_TIM_CCMR1_OC1FE);
+			temp &= ~(1 << GP1_TIM_CCMR1_OC1CE);
+			temp &= ~(15 << GP1_TIM_CCMR1_OC1M);
+			temp |= (pTIMHandle->GP1_TIM_PWM_Config.GP1TIM_PWMMode << GP1_TIM_CCMR1_OC1M);
+			pTIMHandle->pGP1TIMx->CCMR1 = temp;
+
+			pTIMHandle->pGP1TIMx->CCR1 = pTIMHandle->GP1_TIM_PWM_Config.GP1TIM_Duty;
+
+		}
+		else if(pTIMHandle->Channel == GP1_TIM_CHANNEL_2)
+		{
+			temp = pTIMHandle->pGP1TIMx->CCER;
+			temp &= ~(1 << GP1_TIM_CCER_CC2E);
+			temp &= ~(1 << GP1_TIM_CCER_CC2NP);
+			temp &= ~(1 << GP1_TIM_CCER_CC2P);
+			temp |= (pTIMHandle->GP1_TIM_PWM_Config.GP1TIM_Polarity << GP1_TIM_CCER_CC2P);
+			pTIMHandle->pGP1TIMx->CCER = temp;
+
+			temp = pTIMHandle->pGP1TIMx->CCMR1;
+			temp &= ~(3 << GP1_TIM_CCMR1_CC2S);
+			temp |= (1 << GP1_TIM_CCMR1_OC2PE);
+			temp &= ~(1 << GP1_TIM_CCMR1_OC2FE);
+			temp &= ~(1 << GP1_TIM_CCMR1_OC2CE);
+			temp &= ~(15 << GP1_TIM_CCMR1_OC2M);
+			temp |= (pTIMHandle->GP1_TIM_PWM_Config.GP1TIM_PWMMode << GP1_TIM_CCMR1_OC2M);
+			pTIMHandle->pGP1TIMx->CCMR1 = temp;
+
+			pTIMHandle->pGP1TIMx->CCR2 = pTIMHandle->GP1_TIM_PWM_Config.GP1TIM_Duty;
+
+		}
+		else if(pTIMHandle->Channel == GP1_TIM_CHANNEL_3)
+		{
+			temp = pTIMHandle->pGP1TIMx->CCER;
+			temp &= ~(1 << GP1_TIM_CCER_CC3E);
+			temp &= ~(1 << GP1_TIM_CCER_CC3NP);
+			temp &= ~(1 << GP1_TIM_CCER_CC3P);
+			temp |= (pTIMHandle->GP1_TIM_PWM_Config.GP1TIM_Polarity << GP1_TIM_CCER_CC3P);
+			pTIMHandle->pGP1TIMx->CCER = temp;
+
+			temp = pTIMHandle->pGP1TIMx->CCMR2;
+			temp &= ~(3 << GP1_TIM_CCMR2_CC3S);
+			temp |= (1 << GP1_TIM_CCMR2_OC3PE);
+			temp &= ~(1 << GP1_TIM_CCMR2_OC3FE);
+			temp &= ~(1 << GP1_TIM_CCMR2_OC3CE);
+			temp &= ~(15 << GP1_TIM_CCMR2_OC3M);
+			temp |= (pTIMHandle->GP1_TIM_PWM_Config.GP1TIM_PWMMode << GP1_TIM_CCMR2_OC3M);
+			pTIMHandle->pGP1TIMx->CCMR2 = temp;
+
+			pTIMHandle->pGP1TIMx->CCR3 = pTIMHandle->GP1_TIM_PWM_Config.GP1TIM_Duty;
+
+		}
+		else
+		{
+			temp = pTIMHandle->pGP1TIMx->CCER;
+			temp &= ~(1 << GP1_TIM_CCER_CC4E);
+			temp &= ~(1 << GP1_TIM_CCER_CC4NP);
+			temp &= ~(1 << GP1_TIM_CCER_CC4P);
+			temp |= (pTIMHandle->GP1_TIM_PWM_Config.GP1TIM_Polarity << GP1_TIM_CCER_CC4P);
+			pTIMHandle->pGP1TIMx->CCER = temp;
+
+			temp = pTIMHandle->pGP1TIMx->CCMR2;
+			temp &= ~(3 << GP1_TIM_CCMR2_CC4S);
+			temp |= (1 << GP1_TIM_CCMR2_OC4PE);
+			temp &= ~(1 << GP1_TIM_CCMR2_OC4FE);
+			temp &= ~(1 << GP1_TIM_CCMR2_OC4CE);
+			temp &= ~(15 << GP1_TIM_CCMR2_OC4M);
+			temp |= (pTIMHandle->GP1_TIM_PWM_Config.GP1TIM_PWMMode << GP1_TIM_CCMR2_OC4M);
+			pTIMHandle->pGP1TIMx->CCMR2 = temp;
+
+			pTIMHandle->pGP1TIMx->CCR4 = pTIMHandle->GP1_TIM_PWM_Config.GP1TIM_Duty;
+
+		}
+
+	}
+}
+
+
+void GP1TIM_PWM_Start(GP1_TIM_Handle_t *pTIMHandle)
+{
+    GP1TIM_OC_Start(pTIMHandle);   // enable channel
+}
+
+
+
+void GP1TIM_PWM_Stop(GP1_TIM_Handle_t *pTIMHandle)
+{
+    GP1TIM_OC_Stop(pTIMHandle);
+}
+
+
+void GP1TIM_PWM_SetDuty(GP1_TIM_Handle_t *pTIMHandle, uint32_t Duty)
+{
+    GP1TIM_OC_SetCompare(pTIMHandle, Duty);
+}
+
+
 void GP1TIM_DeInit(GP1_TIM_Handle_t *pTIMHandle)
 {
 	if(pTIMHandle->pGP1TIMx == TIM2)

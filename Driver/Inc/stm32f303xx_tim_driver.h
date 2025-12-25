@@ -32,16 +32,62 @@ typedef struct{
 }GP1_TIM_IC_Config_t;
 
 
+typedef struct
+{
+	uint32_t  GP1TIM_OCMode;
+    uint32_t  GP1TIM_OCPolarity;
+    uint32_t  GP1TIM_Compare;
+
+}GP1_TIM_OC_Config_t;
+
+
+typedef struct
+{
+	/* Note:
+	 * - GP1TIM_Duty represents the raw CCR (Capture/Compare Register) value.
+	 * - It is NOT a percentage.
+	 * - PWM duty cycle is derived as:
+	 *
+	 *      Duty (%) = (CCR / ARR) * 100
+	 *
+	 * - ARR must be configured separately using the timer base initialization.
+	 */
+    uint32_t GP1TIM_PWMMode;     // PWM1 or PWM2
+    uint32_t GP1TIM_Duty;        // CCR value
+    uint32_t GP1TIM_Polarity;    // HIGH / LOW
+} GP1_TIM_PWM_Config_t;
+
+
+
 typedef struct{
 
 	GP1_TIM_Regs_t *pGP1TIMx;
 	GP1_TIM_Config_t GP1_TIM_Config;
 	GP1_TIM_IC_Config_t GP1_TIM_IC_Config;
+	GP1_TIM_OC_Config_t GP1_TIM_OC_Config;
+	GP1_TIM_PWM_Config_t GP1_TIM_PWM_Config;
     uint32_t Channel;            /* Active channel */
     uint8_t  State;              /* RESET / READY / BUSY */
 
 }GP1_TIM_Handle_t;
 
+
+#define GP1TIM_OCMODE_FROZEN   			 	0
+#define GP1TIM_OCMODE_ACTIVE   				1
+#define GP1TIM_OCMODE_INACTIVE 				2
+#define GP1TIM_OCMODE_TOGGLE   				3
+#define GP1TIM_OCMODE_PWM1     				6
+#define GP1TIM_OCMODE_PWM2     				7
+
+
+#define GP1TIM_OCPOLARITY_HIGH				0
+#define GP1TIM_OCPOLARITY_LOW				1
+
+#define GP1TIM_POLARITY_HIGH				GP1TIM_OCPOLARITY_HIGH
+#define GP1TIM_POLARITY_LOW					GP1TIM_OCPOLARITY_LOW
+
+#define GP1TIM_PWMMODE_PWM1					GP1TIM_OCMODE_PWM1
+#define GP1TIM_PWMMODE_PWM2					GP1TIM_OCMODE_PWM2
 
 #define GP1TIM_CKD_1						0
 #define GP1TIM_CKD_2						1
@@ -108,23 +154,21 @@ void GP1TIM_Delay_us(GP1_TIM_Handle_t *pTIMHandle, uint32_t delay_us);
 
 /* Output Compare */
 void GP1TIM_OC_Init(GP1_TIM_Handle_t *pTIMHandle);
-void GP1TIM_OC_Start(GP1_TIM_Regs_t *pTIMx, uint8_t Channel);
-void GP1TIM_OC_Stop(GP1_TIM_Regs_t *pTIMx, uint8_t Channel);
+void GP1TIM_OC_Start(GP1_TIM_Handle_t *pTIMHandle);
+void GP1TIM_OC_Stop(GP1_TIM_Handle_t *pTIMHandle);
+void GP1TIM_OC_SetCompare(GP1_TIM_Handle_t *pTIMHandle, uint32_t Compare);
 
 /* PWM */
 void GP1TIM_PWM_Init(GP1_TIM_Handle_t *pTIMHandle);
-void GP1TIM_PWM_Start(GP1_TIM_Regs_t *pTIMx, uint8_t Channel);
-void GP1TIM_PWM_Stop(GP1_TIM_Regs_t *pTIMx, uint8_t Channel);
-void GP1TIM_PWM_SetDuty(GP1_TIM_Regs_t *pTIMx, uint8_t Channel, uint32_t Duty);
+void GP1TIM_PWM_Start(GP1_TIM_Handle_t *pTIMHandle);
+void GP1TIM_PWM_Stop(GP1_TIM_Handle_t *pTIMHandle);
+void GP1TIM_PWM_SetDuty(GP1_TIM_Handle_t *pTIMHandle, uint32_t Duty);
 
 /* Input Capture */
 void GP1TIM_IC_Init(GP1_TIM_Handle_t *pTIMHandle);
 void GP1TIM_IC_Start(GP1_TIM_Handle_t *pTIMHandle);
 void GP1TIM_IC_Stop(GP1_TIM_Handle_t *pTIMHandle);
 uint32_t GP1TIM_IC_GetCaptureValue(GP1_TIM_Handle_t *pTIMHandle);
-
-
-
 
 
 
