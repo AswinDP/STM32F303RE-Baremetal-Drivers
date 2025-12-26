@@ -15,11 +15,13 @@
 
 void GPIO_Init(GPIO_Handle_t *pGPIOHandle)
 {
-	 uint32_t temp=0; //temp. register
-
 	 //enable the peripheral clock
 
 	GPIO_ClkControl(pGPIOHandle->pGPIOx, ENABLE);
+
+	 uint32_t temp=0; //temp. register
+
+
 
 	//1 . configure the mode of gpio pin
 

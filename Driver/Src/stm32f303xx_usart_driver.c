@@ -70,10 +70,10 @@ void USART_Init(USART_Handle_t *pUSARTHandle)
 	 * CR1 Register Configuration
 	 */
 
-	uint32_t tempreg = 0;
-
 	// DISABLE USART
 	pUSARTHandle->pUSARTx->CR1 &= ~(USART_CR1_UE);
+
+	uint32_t tempreg = pUSARTHandle->pUSARTx->CR1;
 
 	//WordLength
 	if(pUSARTHandle->USART_Config.USART_WordLength == 0)
@@ -135,7 +135,7 @@ void USART_Init(USART_Handle_t *pUSARTHandle)
 	 * CR2 Register Configuration
 	 */
 
-	tempreg = 0;
+	tempreg = pUSARTHandle->pUSARTx->CR2;
 
 	// MSBFIRST, DATAINV, TXINV, RXINV, SWAP, LINEN all in default due to tempreg = 0
 
@@ -170,7 +170,7 @@ void USART_Init(USART_Handle_t *pUSARTHandle)
 	 * CR3 Register Configuration
 	 */
 
-	tempreg = 0;
+	tempreg = pUSARTHandle->pUSARTx->CR3;
 
 	//FlowControl
 	if(pUSARTHandle->USART_Config.USART_HWFlowControl)
