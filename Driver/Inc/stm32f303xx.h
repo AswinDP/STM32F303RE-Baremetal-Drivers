@@ -39,6 +39,8 @@
 #define APB2_BASEADDR				0x40010000u
 
 
+#define NVIC_BASEADDR				0xE000E100u
+
 //Base Addresses of various peripherals
 
 //GPIOx Peripherals
@@ -214,6 +216,35 @@ typedef struct
 } GP1_TIM_Regs_t;
 
 
+//Structure for NVICx registers
+typedef struct {
+
+    __vo uint32_t ISER[8];
+    uint32_t RESERVED0[24];
+
+    __vo uint32_t ICER[8];
+    uint32_t RESERVED1[24];
+
+    __vo uint32_t ISPR[8];
+    uint32_t RESERVED2[24];
+
+    __vo uint32_t ICPR[8];
+    uint32_t RESERVED3[24];
+
+    __vo uint32_t IABR[8];
+    uint32_t RESERVED4[48];
+
+    __vo uint32_t IPR[60];
+    uint32_t RESERVED5[404];
+
+    __vo uint32_t STIR;
+
+} NVIC_Regs_t;
+
+
+
+//NVIC Peripheral definitions
+#define NVIC   ((NVIC_Regs_t*)NVIC_BASEADDR)
 
 
 //GPIO Peripheral definitions
