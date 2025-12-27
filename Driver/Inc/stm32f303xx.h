@@ -218,7 +218,6 @@ typedef struct
 
 //Structure for NVICx registers
 typedef struct {
-
     __vo uint32_t ISER[8];
     uint32_t RESERVED0[24];
 
@@ -232,7 +231,7 @@ typedef struct {
     uint32_t RESERVED3[24];
 
     __vo uint32_t IABR[8];
-    uint32_t RESERVED4[48];
+    uint32_t RESERVED4[56];
 
     __vo uint32_t IPR[60];
     uint32_t RESERVED5[404];
@@ -244,7 +243,7 @@ typedef struct {
 
 
 //NVIC Peripheral definitions
-#define NVIC   ((NVIC_Regs_t*)NVIC_BASEADDR)
+#define NVIC						((NVIC_Regs_t*)NVIC_BASEADDR)
 
 
 //GPIO Peripheral definitions
@@ -653,5 +652,6 @@ typedef struct {
 #include "stm32f303xx_i2c_driver.h"
 #include "stm32f303xx_usart_driver.h"
 #include "stm32f303xx_tim_driver.h"
+#include "stm32f303xx_nvic_driver.h"
 
 #endif /* INC_STM32F303XX_H_ */
