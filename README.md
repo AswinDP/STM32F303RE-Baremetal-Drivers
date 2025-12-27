@@ -1,0 +1,1 @@
+Note: I'm actively writing drivers for different peripherals, protocols, and devices. I know the documentation and code readability aren't perfect right now, but I'm improving them step by step in small parts every day. I don't want perfection to slow down my progress, so I focus on moving forward first and refining along the way.
