@@ -92,8 +92,8 @@
 
 
 #define EXTI_BASEADDR				(APB2_BASEADDR + 0x0400)
-#define SYSCFG_BASEADDR				(APB2_BASEADDR + 0x0000)
 
+#define SYSCFG_BASEADDR				(APB2_BASEADDR + 0x0000)
 
 
 
@@ -216,7 +216,7 @@ typedef struct
 } GP1_TIM_Regs_t;
 
 
-//Structure for NVICx registers
+//Structure for NVIC registers
 typedef struct {
     __vo uint32_t ISER[8];
     uint32_t RESERVED0[24];
@@ -239,6 +239,36 @@ typedef struct {
     __vo uint32_t STIR;
 
 } NVIC_Regs_t;
+
+
+//Structure for EXTI registers
+typedef struct{
+
+	__vo uint32_t IMR1;
+	__vo uint32_t EMR1;
+	__vo uint32_t RTSR1;
+	__vo uint32_t FTSR1;
+	__vo uint32_t SWIER1;
+	__vo uint32_t PR1;
+	__vo uint32_t IMR2;
+	__vo uint32_t EMR2;
+	__vo uint32_t RTSR2;
+	__vo uint32_t FTSR2;
+	__vo uint32_t SWIER2;
+	__vo uint32_t PR2;
+
+} EXTI_Regs_t;
+
+
+//Structure for SYSCFG registers
+typedef struct{
+
+	__vo uint32_t CFGR1;
+	__vo uint32_t RCR;
+	__vo uint32_t EXTICR[4];
+	__vo uint32_t CFGR[3];
+
+} SYSCFG_Regs_t;
 
 
 
@@ -500,6 +530,9 @@ typedef struct {
 #define GP1_TIM_CCER_CC4NP   15
 
 
+//NVIC Peripheral definitions
+#define EXTI						((EXTI_Regs_t*)EXTI_BASEADDR)
+
 
 //Clock Enable Macros for GPIOx
 #define GPIOA_CLK_EN()				( RCC -> AHBENR |= (1 << 17))
@@ -632,18 +665,21 @@ typedef struct {
 
 
 //Clock Reset Macros for TIMx
-#define TIM1_REG_RST()    do { (RCC->APB2RSTR |=  (1 << 11)); (RCC->APB2RSTR &= ~(1 << 11)); } while(0)
-#define TIM15_REG_RST()   do { (RCC->APB2RSTR |=  (1 << 16)); (RCC->APB2RSTR &= ~(1 << 16)); } while(0)
-#define TIM16_REG_RST()   do { (RCC->APB2RSTR |=  (1 << 17)); (RCC->APB2RSTR &= ~(1 << 17)); } while(0)
-#define TIM17_REG_RST()   do { (RCC->APB2RSTR |=  (1 << 18)); (RCC->APB2RSTR &= ~(1 << 18)); } while(0)
-#define TIM2_REG_RST()    do { (RCC->APB1RSTR |=  (1 << 0));  (RCC->APB1RSTR &= ~(1 << 0));  } while(0)
-#define TIM20_REG_RST()   do { (RCC->APB2RSTR |=  (1 << 20)); (RCC->APB2RSTR &= ~(1 << 20)); } while(0)
-#define TIM3_REG_RST()    do { (RCC->APB1RSTR |=  (1 << 1));  (RCC->APB1RSTR &= ~(1 << 1));  } while(0)
-#define TIM4_REG_RST()    do { (RCC->APB1RSTR |=  (1 << 2));  (RCC->APB1RSTR &= ~(1 << 2));  } while(0)
-#define TIM6_REG_RST()    do { (RCC->APB1RSTR |=  (1 << 4));  (RCC->APB1RSTR &= ~(1 << 4));  } while(0)
-#define TIM7_REG_RST()    do { (RCC->APB1RSTR |=  (1 << 5));  (RCC->APB1RSTR &= ~(1 << 5));  } while(0)
-#define TIM8_REG_RST()    do { (RCC->APB2RSTR |=  (1 << 13)); (RCC->APB2RSTR &= ~(1 << 13)); } while(0)
-#define WWDG_REG_RST()    do { (RCC->APB1RSTR |=  (1 << 11)); (RCC->APB1RSTR &= ~(1 << 11)); } while(0)
+#define TIM1_REG_RST()			    do { (RCC->APB2RSTR |=  (1 << 11)); (RCC->APB2RSTR &= ~(1 << 11)); } while(0)
+#define TIM15_REG_RST()   			do { (RCC->APB2RSTR |=  (1 << 16)); (RCC->APB2RSTR &= ~(1 << 16)); } while(0)
+#define TIM16_REG_RST()   			do { (RCC->APB2RSTR |=  (1 << 17)); (RCC->APB2RSTR &= ~(1 << 17)); } while(0)
+#define TIM17_REG_RST()   			do { (RCC->APB2RSTR |=  (1 << 18)); (RCC->APB2RSTR &= ~(1 << 18)); } while(0)
+#define TIM2_REG_RST()    			do { (RCC->APB1RSTR |=  (1 << 0));  (RCC->APB1RSTR &= ~(1 << 0));  } while(0)
+#define TIM20_REG_RST()   			do { (RCC->APB2RSTR |=  (1 << 20)); (RCC->APB2RSTR &= ~(1 << 20)); } while(0)
+#define TIM3_REG_RST()    			do { (RCC->APB1RSTR |=  (1 << 1));  (RCC->APB1RSTR &= ~(1 << 1));  } while(0)
+#define TIM4_REG_RST()    			do { (RCC->APB1RSTR |=  (1 << 2));  (RCC->APB1RSTR &= ~(1 << 2));  } while(0)
+#define TIM6_REG_RST()    			do { (RCC->APB1RSTR |=  (1 << 4));  (RCC->APB1RSTR &= ~(1 << 4));  } while(0)
+#define TIM7_REG_RST()    			do { (RCC->APB1RSTR |=  (1 << 5));  (RCC->APB1RSTR &= ~(1 << 5));  } while(0)
+#define TIM8_REG_RST()    			do { (RCC->APB2RSTR |=  (1 << 13)); (RCC->APB2RSTR &= ~(1 << 13)); } while(0)
+#define WWDG_REG_RST()    			do { (RCC->APB1RSTR |=  (1 << 11)); (RCC->APB1RSTR &= ~(1 << 11)); } while(0)
+
+//Clock Reset Macros for SYSCFG & EXTI
+#define SYSCFG_CLK_RST()			do {( RCC -> APB2RSTR |= (1 << 0));  ( RCC -> APB2RSTR &= ~(1 << 0));} while(0)
 
 
 
@@ -653,5 +689,7 @@ typedef struct {
 #include "stm32f303xx_usart_driver.h"
 #include "stm32f303xx_tim_driver.h"
 #include "stm32f303xx_nvic_driver.h"
+#include "stm32f303xx_rcc_driver.h"
+#include "stm32f303xx_exti_driver.h"
 
 #endif /* INC_STM32F303XX_H_ */

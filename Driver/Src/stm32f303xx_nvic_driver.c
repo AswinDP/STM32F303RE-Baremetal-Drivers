@@ -54,7 +54,7 @@ void NVIC_ClearPendingIRQ(IRQn_Type IRQn)
 uint32_t NVIC_GetPendingIRQ(IRQn_Type IRQn)
 {
 	if (IRQn < 0)
-	    return;
+		return 0;
 
 	return ((NVIC->ISPR[IRQn / 32]) & (1 << (IRQn % 32)));
 }

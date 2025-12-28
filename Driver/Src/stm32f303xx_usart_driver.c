@@ -73,7 +73,7 @@ void USART_Init(USART_Handle_t *pUSARTHandle)
 	// DISABLE USART
 	pUSARTHandle->pUSARTx->CR1 &= ~(USART_CR1_UE);
 
-	uint32_t tempreg = pUSARTHandle->pUSARTx->CR1;
+	uint32_t tempreg = 0;
 
 	//WordLength
 	if(pUSARTHandle->USART_Config.USART_WordLength == 0)
@@ -112,21 +112,9 @@ void USART_Init(USART_Handle_t *pUSARTHandle)
 		}
 
 	//TxRx Modes
-	if(pUSARTHandle->USART_Config.USART_Mode == 0)
-		{
-			tempreg &= ~(USART_CR1_TE);
-			tempreg |=  (USART_CR1_RE);
-		}
-	else if(pUSARTHandle->USART_Config.USART_Mode == 1)
-		{
-			tempreg |=  (USART_CR1_TE);
-			tempreg &= ~(USART_CR1_RE);
-		}
-	else if(pUSARTHandle->USART_Config.USART_Mode == 2)
-		{
-			tempreg |=  (USART_CR1_TE);
-			tempreg |=  (USART_CR1_RE);
-		}
+	//Enable after UE set
+	tempreg &= ~(USART_CR1_TE);
+	tempreg &= ~(USART_CR1_RE);
 
 	pUSARTHandle->pUSARTx->CR1 = tempreg;
 
@@ -135,7 +123,7 @@ void USART_Init(USART_Handle_t *pUSARTHandle)
 	 * CR2 Register Configuration
 	 */
 
-	tempreg = pUSARTHandle->pUSARTx->CR2;
+	tempreg = 0;
 
 	// MSBFIRST, DATAINV, TXINV, RXINV, SWAP, LINEN all in default due to tempreg = 0
 
@@ -170,7 +158,7 @@ void USART_Init(USART_Handle_t *pUSARTHandle)
 	 * CR3 Register Configuration
 	 */
 
-	tempreg = pUSARTHandle->pUSARTx->CR3;
+	tempreg = 0;
 
 	//FlowControl
 	if(pUSARTHandle->USART_Config.USART_HWFlowControl)
@@ -195,6 +183,22 @@ void USART_Init(USART_Handle_t *pUSARTHandle)
 	// ENABLE USART
 	pUSARTHandle->pUSARTx->CR1 |= (USART_CR1_UE);
 
+	//TxRx Modes
+	if(pUSARTHandle->USART_Config.USART_Mode == 0)
+		{
+			pUSARTHandle->pUSARTx->CR1 &= ~(USART_CR1_TE);
+			pUSARTHandle->pUSARTx->CR1 |=  (USART_CR1_RE);
+		}
+	else if(pUSARTHandle->USART_Config.USART_Mode == 1)
+		{
+			pUSARTHandle->pUSARTx->CR1 |=  (USART_CR1_TE);
+			pUSARTHandle->pUSARTx->CR1 &= ~(USART_CR1_RE);
+		}
+	else if(pUSARTHandle->USART_Config.USART_Mode == 2)
+		{
+			pUSARTHandle->pUSARTx->CR1 |=  (USART_CR1_TE);
+			pUSARTHandle->pUSARTx->CR1 |=  (USART_CR1_RE);
+		}
 }
 
 
