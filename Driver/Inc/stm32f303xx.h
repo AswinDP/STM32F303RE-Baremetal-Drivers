@@ -533,6 +533,9 @@ typedef struct{
 //NVIC Peripheral definitions
 #define EXTI						((EXTI_Regs_t*)EXTI_BASEADDR)
 
+//SYSCFG Peripheral definitions
+#define SYSCFG						((SYSCFG_Regs_t*)SYSCFG_BASEADDR)
+
 
 //Clock Enable Macros for GPIOx
 #define GPIOA_CLK_EN()				( RCC -> AHBENR |= (1 << 17))
