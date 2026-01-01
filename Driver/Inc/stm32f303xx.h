@@ -41,6 +41,9 @@
 
 #define NVIC_BASEADDR				0xE000E100u
 
+
+#define SCB_BASEADDR            	0xE000ED00u
+
 //Base Addresses of various peripherals
 
 //GPIOx Peripherals
@@ -271,9 +274,22 @@ typedef struct{
 } SYSCFG_Regs_t;
 
 
+typedef struct
+{
+  volatile uint32_t CPUID;   /* CPU ID Base Register */
+  volatile uint32_t ICSR;    /* Interrupt Control and State Register */
+  volatile uint32_t VTOR;    /* Vector Table Offset Register */
+  volatile uint32_t AIRCR;   /* Application Interrupt and Reset Control Register */
+  volatile uint32_t SCR;     /* System Control Register */
+  /* ... other SCB registers ... */
+} SCB_Regs_t;
+
 
 //NVIC Peripheral definitions
 #define NVIC						((NVIC_Regs_t*)NVIC_BASEADDR)
+
+//temp
+#define SCB    						((SCB_Regs_t *)SCB_BASEADDR)
 
 
 //GPIO Peripheral definitions

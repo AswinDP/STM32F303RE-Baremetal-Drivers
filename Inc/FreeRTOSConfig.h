@@ -8,7 +8,7 @@
  *----------------------------------------------------------*/
 /* Use the ACTUAL CPU clock, not the max supported clock */
 
-#define configCPU_CLOCK_HZ            ( 8000000UL )   /* 8 MHz in your case */
+#define configCPU_CLOCK_HZ            ( 8000000UL )
 #define configTICK_RATE_HZ            ( 1000U )             /* 1 ms tick */
 
 /*-----------------------------------------------------------
@@ -62,5 +62,11 @@
 #define INCLUDE_xTaskGetSchedulerState        1
 #define INCLUDE_uxTaskGetStackHighWaterMark   1
 #define INCLUDE_xTaskGetCurrentTaskHandle     1
+
+/* Map FreeRTOS handlers to CMSIS names */
+#define vPortSVCHandler      SVC_Handler
+#define xPortPendSVHandler   PendSV_Handler
+#define xPortSysTickHandler  SysTick_Handler
+
 
 #endif /* FREERTOS_CONFIG_H */
