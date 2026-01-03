@@ -1,0 +1,55 @@
+#include "stm32f303xx.h"
+
+
+void vApplicationStackOverflowHook(void)			//Just for RTOS
+{
+    while (1);
+}
+
+
+
+int main(void)
+{
+
+	GPIO_Handle_t GPIOCLK;
+
+	GPIOCLK.pGPIOx = GPIOA;
+	GPIOCLK.GPIO_PinConfig.GPIO_PinNumber = GPIO_PIN1;
+	GPIOCLK.GPIO_PinConfig.GPIO_PinMode = GPIO_MODE_ALTFN;
+	GPIOCLK.GPIO_PinConfig.GPIO_PinAltFunMode = GPIO_AF1;
+	GPIOCLK.GPIO_PinConfig.GPIO_PinSpeed = GPIO_SPEED_FAST;
+	GPIOCLK.GPIO_PinConfig.GPIO_PinOPType = GPIO_OP_TYPE_PP;
+	GPIOCLK.GPIO_PinConfig.GPIO_PinPuPdControl = GPIO_NO_PUPD;
+
+	GPIO_ClkControl(GPIOA, ENABLE);
+	GPIO_Init(&GPIOCLK);
+
+	GP1_TIM_Handle_t TIM2CH2;
+
+	TIM2CH2.pGP1TIMx = TIM2;
+	TIM2CH2.Channel = GP1_TIM_CHANNEL_2;
+	TIM2CH2.State = GP1TIM_STATE_RST;
+	TIM2CH2.GP1_TIM_Config.GP1TIM_CounterMode = GP1TIM_COUNTMODE_UP;
+	TIM2CH2.GP1_TIM_Config.GP1TIM_Prescaler = 7999;
+	TIM2CH2.GP1_TIM_Config.GP1TIM_AutoReload = 99;
+	TIM2CH2.GP1_TIM_Config.GP1TIM_ClockDivision = GP1TIM_CKD_1;
+
+	GP1TIM_Init(&TIM2CH2);
+
+	TIM2CH2.GP1_TIM_OC_Config.GP1TIM_OCPolarity = GP1TIM_OCPOLARITY_HIGH;
+	TIM2CH2.GP1_TIM_OC_Config.GP1TIM_OCMode = GP1TIM_OCMODE_TOGGLE;
+	TIM2CH2.GP1_TIM_OC_Config.GP1TIM_Compare = 99;
+
+	GP1TIM_OC_Init(&TIM2CH2);
+
+
+	GP1TIM_Start(&TIM2CH2);
+	GP1TIM_OC_Start(&TIM2CH2);
+
+	while(1)
+	{
+
+	}
+
+
+}
