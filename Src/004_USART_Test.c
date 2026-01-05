@@ -9,6 +9,12 @@
 
 
 
+void vApplicationStackOverflowHook(void)			//Just for RTOS
+{
+    while (1);
+}
+
+
 void delay_ms(uint32_t ms)
 {
     volatile uint32_t i;
@@ -22,6 +28,8 @@ void delay_ms(uint32_t ms)
 int main()
 {
 	SysClk_Config();
+
+	USART1_REG_RST();
 	USART_ClkControl(USART1, ENABLE);
 
 
@@ -78,56 +86,35 @@ int main()
 
 	USART1TEST.pUSARTx = USART1;
 	USART1TEST.USART_Config.USART_Baud = USART_BAUD_115200;
-	USART1TEST.USART_Config.USART_Mode = USART_MODE_TX_ONLY;
+	USART1TEST.USART_Config.USART_Mode = USART_MODE_TX_RX;
 	USART1TEST.USART_Config.USART_StopBits = USART_STOPBITS_1;
 	USART1TEST.USART_Config.USART_WordLength = USART_WORDLEN_8BITS;
 	USART1TEST.USART_Config.USART_HWFlowControl = USART_FLOWCTRL_DIS;
 	USART1TEST.USART_Config.USART_ParityControl = USART_PARITYCTRL_DIS;
 
 
-//	// 1. Calculate the address of RCC_CFGR3
-//	// RCC_BASEADDR is 0x40021000. CFGR3 offset is 0x30.
-//	volatile uint32_t *pRCC_CFGR3 = (uint32_t *)(RCC_BASEADDR + 0x30);
-//
-//	// 2. Clear bits 16 and 17 (USART2SW)
-//	*pRCC_CFGR3 &= ~(0x3 << 16);
-//
-//	// 3. Set bits 16 and 17 to '11' to select HSI (8 MHz) as the source
-//	*pRCC_CFGR3 |= (0x3 << 16);
-
 	USART_Init(&USART1TEST);
 
 
-	uint8_t msg[] = "HELLO USART1\r\n";
-	uint8_t startTx = 0;
+    uint8_t msg[] = "HELLO FROM STM32\r\n";
+    uint8_t rxByte;
 
+    while (1)
+    {
+        /* Send data to ESP32 */
+        USART_SendData(&USART1TEST, msg, sizeof(msg) - 1);
 
-	while(1)
-	{
-	    /* Wait for ONE button press */
-	    if(startTx == 0)
-	    {
-	        if(GPIO_ReadPin(GPIOC, 13) == 0)   // Active LOW
-	        {
-	            delay_ms(50);                 // Debounce
+        /* Receive ONE byte from ESP32 (blocking) */
+        USART_ReceiveData(&USART1TEST, &rxByte, 1);
 
-	            if(GPIO_ReadPin(GPIOC, 13) == 0)
-	            {
-	                startTx = 1;              // Latch ON
-	                GPIO_WritePin(GPIOA, 5, 1); // LED ON (indicates TX started)
+        /* Simple command handling */
+        if (rxByte == 'L')   // ESP32 sends 'L'
+        {
+            GPIO_TogglePin(GPIOA, GPIO_PIN5);
+        }
 
-	                while(GPIO_ReadPin(GPIOC, 13) == 0); // wait for release
-	                delay_ms(50);
-	            }
-	        }
-	    }
-	    else
-	    {
-	        /* Repeated transmission */
-	        USART_SendData(&USART1TEST, msg, sizeof(msg) - 1);
-	        delay_ms(500);
-	    }
-	}
+        delay_ms(300);
+    }
 
 
 
