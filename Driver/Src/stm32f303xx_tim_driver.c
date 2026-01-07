@@ -97,25 +97,28 @@ void GP1TIM_Stop(GP1_TIM_Handle_t *pTIMHandle)
 }
 
 
+uint32_t GP1TIM_GetCounterValue(GP1_TIM_Handle_t *pTIMHandle)
+{
+    return pTIMHandle->pGP1TIMx->CNT;
+}
+
+
 void GP1TIM_Delay_ms(GP1_TIM_Handle_t *pTIMHandle, uint32_t delay_ms)
 {
 	// Max delay using Delay_ms is ~65.5 seconds for 16-bit timers (TIM3, TIM4)
-	if(pTIMHandle->State == GP1TIM_STATE_RDY)
-	{
 		//Assuming 8MHz Clock
-		pTIMHandle->pGP1TIMx->PSC = 7999;
-		pTIMHandle->pGP1TIMx->ARR = delay_ms - 1;
+	pTIMHandle->pGP1TIMx->PSC = 7999;
+	pTIMHandle->pGP1TIMx->ARR = delay_ms - 1;
 
-		pTIMHandle->pGP1TIMx->EGR |= (1 << GP1_TIM_EGR_UG);
-		pTIMHandle->pGP1TIMx->SR &= ~(1 << GP1_TIM_SR_UIF);
+	pTIMHandle->pGP1TIMx->EGR |= (1 << GP1_TIM_EGR_UG);
+	pTIMHandle->pGP1TIMx->SR &= ~(1 << GP1_TIM_SR_UIF);
 
-		GP1TIM_Start(pTIMHandle);
+	GP1TIM_Start(pTIMHandle);
 
-		while(!(pTIMHandle->pGP1TIMx->SR & (1 << GP1_TIM_SR_UIF)));
-		pTIMHandle->pGP1TIMx->SR &= ~(1 << GP1_TIM_SR_UIF);
+	while(!(pTIMHandle->pGP1TIMx->SR & (1 << GP1_TIM_SR_UIF)));
+	pTIMHandle->pGP1TIMx->SR &= ~(1 << GP1_TIM_SR_UIF);
 
-		GP1TIM_Stop(pTIMHandle);
-	}
+	GP1TIM_Stop(pTIMHandle);
 }
 
 
@@ -123,22 +126,19 @@ void GP1TIM_Delay_us(GP1_TIM_Handle_t *pTIMHandle, uint32_t delay_us)
 {
 	// Max delay using Delay_us is ~65 ms for 16-bit timers (TIM3, TIM4)
 	// and ~71 minutes for 32-bit timer (TIM2, if configured as 32-bit)
-	if(pTIMHandle->State == GP1TIM_STATE_RDY)
-	{
-		//Assuming 8MHz Clock
-		pTIMHandle->pGP1TIMx->PSC = 7;
-		pTIMHandle->pGP1TIMx->ARR = delay_us - 1;
+//Assuming 8MHz Clock
+	pTIMHandle->pGP1TIMx->PSC = 7;
+	pTIMHandle->pGP1TIMx->ARR = delay_us - 1;
 
-		pTIMHandle->pGP1TIMx->EGR |= (1 << GP1_TIM_EGR_UG);
-		pTIMHandle->pGP1TIMx->SR &= ~(1 << GP1_TIM_SR_UIF);
+	pTIMHandle->pGP1TIMx->EGR |= (1 << GP1_TIM_EGR_UG);
+	pTIMHandle->pGP1TIMx->SR &= ~(1 << GP1_TIM_SR_UIF);
 
-		GP1TIM_Start(pTIMHandle);
+	GP1TIM_Start(pTIMHandle);
 
-		while(!(pTIMHandle->pGP1TIMx->SR & (1 << GP1_TIM_SR_UIF)));
-		pTIMHandle->pGP1TIMx->SR &= ~(1 << GP1_TIM_SR_UIF);
+	while(!(pTIMHandle->pGP1TIMx->SR & (1 << GP1_TIM_SR_UIF)));
+	pTIMHandle->pGP1TIMx->SR &= ~(1 << GP1_TIM_SR_UIF);
 
-		GP1TIM_Stop(pTIMHandle);
-	}
+	GP1TIM_Stop(pTIMHandle);
 }
 
 
@@ -305,6 +305,67 @@ void GP1TIM_IC_Stop(GP1_TIM_Handle_t *pTIMHandle)
 		pTIMHandle->pGP1TIMx->SR &= ~(1 << GP1_TIM_SR_CC4OF);
 		pTIMHandle->pGP1TIMx->CCER &= ~(1 << GP1_TIM_CCER_CC4E);
 	}
+}
+
+
+uint8_t GP1TIM_IC_IsCaptureFlagSet(GP1_TIM_Handle_t *pTIMHandle)
+{
+    uint32_t bit;
+
+    switch (pTIMHandle->Channel)
+    {
+        case GP1_TIM_CHANNEL_1:
+            bit = GP1_TIM_SR_CC1IF;
+            break;
+
+        case GP1_TIM_CHANNEL_2:
+            bit = GP1_TIM_SR_CC2IF;
+            break;
+
+        case GP1_TIM_CHANNEL_3:
+            bit = GP1_TIM_SR_CC3IF;
+            break;
+
+        case GP1_TIM_CHANNEL_4:
+            bit = GP1_TIM_SR_CC4IF;
+            break;
+
+        default:
+            return 0;   /* Invalid channel */
+    }
+
+    return (pTIMHandle->pGP1TIMx->SR & (1U << bit)) ? 1 : 0;
+}
+
+
+void GP1TIM_IC_ClearCaptureFlag(GP1_TIM_Handle_t *pTIMHandle)
+{
+    uint32_t bit;
+
+    switch (pTIMHandle->Channel)
+    {
+        case GP1_TIM_CHANNEL_1:
+            bit = GP1_TIM_SR_CC1IF;
+            break;
+
+        case GP1_TIM_CHANNEL_2:
+            bit = GP1_TIM_SR_CC2IF;
+            break;
+
+        case GP1_TIM_CHANNEL_3:
+            bit = GP1_TIM_SR_CC3IF;
+            break;
+
+        case GP1_TIM_CHANNEL_4:
+            bit = GP1_TIM_SR_CC4IF;
+            break;
+
+        default:
+            return;
+    }
+
+    /* Clear CCxIF */
+    pTIMHandle->pGP1TIMx->SR &= ~(1U << bit);
 }
 
 

@@ -147,6 +147,8 @@ void GP1TIM_Init(GP1_TIM_Handle_t *pTIMHandle);
 void GP1TIM_DeInit(GP1_TIM_Handle_t *pTIMHandle);
 void GP1TIM_Start(GP1_TIM_Handle_t *pTIMHandle);
 void GP1TIM_Stop(GP1_TIM_Handle_t *pTIMHandle);
+uint32_t GP1TIM_GetCounterValue(GP1_TIM_Handle_t *pTIMHandle);
+
 
 /* Delay services */
 void GP1TIM_Delay_ms(GP1_TIM_Handle_t *pTIMHandle, uint32_t delay_ms);
@@ -169,6 +171,8 @@ void GP1TIM_IC_Init(GP1_TIM_Handle_t *pTIMHandle);
 void GP1TIM_IC_Start(GP1_TIM_Handle_t *pTIMHandle);
 void GP1TIM_IC_Stop(GP1_TIM_Handle_t *pTIMHandle);
 uint32_t GP1TIM_IC_GetCaptureValue(GP1_TIM_Handle_t *pTIMHandle);
+uint8_t GP1TIM_IC_IsCaptureFlagSet(GP1_TIM_Handle_t *pTIMHandle);
+void GP1TIM_IC_ClearCaptureFlag(GP1_TIM_Handle_t *pTIMHandle);
 
 
 
